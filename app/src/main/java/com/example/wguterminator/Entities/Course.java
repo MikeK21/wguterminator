@@ -11,12 +11,12 @@ public class Course {
     @PrimaryKey(autoGenerate = true)
     private int courseId;
     private String courseName;
-    private String price;
+    private String date;
 
-    public Course(int courseId, String courseName, String price) {
+    public Course(int courseId, String courseName, String date) {
         this.courseId = courseId;
         this.courseName = courseName;
-        this.price = price;
+        this.date = date;
     }
 
     public Course() {
@@ -38,11 +38,11 @@ public class Course {
         this.courseName = courseName;
     }
 
-    public String getPrice() {
-        return price;
+    public String getDate() {
+        return date;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public void setDate(String date) {
+        this.date = date;
     }
 }

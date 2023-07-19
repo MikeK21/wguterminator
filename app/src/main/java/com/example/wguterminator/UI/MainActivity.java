@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 Term term = new Term(0, "May 2023", "05-01-2023");
                 Repository repository = new Repository(getApplication());
                 repository.insert(term);
-                Course course = new Course(0,"Biology of the Chesapeake", "599.99");
+                Course course = new Course(0,"Biology of the Chesapeake", "05/01/2023");
                 repository.insert(course);
                 Assessment assessment = new Assessment(0, "Chesapeake Critters", "742.99");
                 repository.insert(assessment);
