@@ -1,6 +1,8 @@
 package com.example.wguterminator.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +15,9 @@ import com.example.wguterminator.Entities.Course;
 import com.example.wguterminator.Entities.Term;
 import com.example.wguterminator.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TermDetails extends AppCompatActivity {
 
@@ -35,6 +40,17 @@ public class TermDetails extends AppCompatActivity {
         date = getIntent().getStringExtra("date");
         editName.setText(name);
         editDate.setText(date);
+        repository = new Repository(getApplication());
+        RecyclerView recyclerView = findViewById(R.id.courserecyclerview);
+        repository = new Repository(getApplication());
+        final CourseAdapter courseAdapter = new CourseAdapter(this);
+        recyclerView.setAdapter(courseAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //Added this at end of video 3
+        List<Course> filteredCourses = new ArrayList<>();
+        for (Course c : repository.getmAllCourses()) {
+            if (c.getCourseId() == id) filteredCourses.add(c);
+        }
         Button button = findViewById(R.id.saveTerm);
         button.setOnClickListener(new View.OnClickListener() {
             @Override

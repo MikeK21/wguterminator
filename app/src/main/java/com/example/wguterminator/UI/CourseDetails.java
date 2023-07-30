@@ -13,6 +13,9 @@ import com.example.wguterminator.Database.Repository;
 import com.example.wguterminator.Entities.Course;
 import com.example.wguterminator.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CourseDetails extends AppCompatActivity {
 
     EditText editName;
@@ -30,6 +33,11 @@ public class CourseDetails extends AppCompatActivity {
         id = getIntent().getIntExtra("id", -1);
         repository = new Repository(getApplication());
 
+        // Added this for end of part 3 videos
+        List<Course> filteredCourses = new ArrayList<>();
+        for (Course c : repository.getmAllCourses()) {
+            if (c.getCourseId() == id) filteredCourses.add(c);
+        }
         Button button = findViewById(R.id.saveCourse);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
