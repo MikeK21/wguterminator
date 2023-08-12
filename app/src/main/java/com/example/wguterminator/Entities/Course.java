@@ -6,17 +6,72 @@ import androidx.room.PrimaryKey;
 /*
 Course object
  */
+
+;
+
 @Entity(tableName = "courses")
 public class Course {
     @PrimaryKey(autoGenerate = true)
     private int courseId;
     private String courseName;
-    private String date;
 
-    public Course(int courseId, String courseName, String date) {
+    public CourseStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(CourseStatus status) {
+        this.status = status;
+    }
+
+    public String getCourseInstructorName() {
+        return courseInstructorName;
+    }
+
+    public void setCourseInstructorName(String courseInstructorName) {
+        this.courseInstructorName = courseInstructorName;
+    }
+
+    public String getCourseInstructorNumber() {
+        return courseInstructorNumber;
+    }
+
+    public void setCourseInstructorNumber(String courseInstructorNumber) {
+        this.courseInstructorNumber = courseInstructorNumber;
+    }
+
+    public String getCourseInstructorEmail() {
+        return courseInstructorEmail;
+    }
+
+    public void setCourseInstructorEmail(String courseInstructorEmail) {
+        this.courseInstructorEmail = courseInstructorEmail;
+    }
+
+    private String startDate;
+    private String endDate;
+    private CourseStatus status;
+    private String courseInstructorName;
+    private String courseInstructorNumber;
+    private String courseInstructorEmail;
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public Course(int courseId, String courseName, String startDate, String endDate, CourseStatus status,
+                  String courseInstructorName, String courseInstructorNumber, String courseInstructorEmail) {
         this.courseId = courseId;
         this.courseName = courseName;
-        this.date = date;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.status = status;
+        this.courseInstructorName = courseInstructorName;
+        this.courseInstructorNumber = courseInstructorNumber;
+        this.courseInstructorEmail = courseInstructorEmail;
     }
 
     public Course() {
@@ -38,11 +93,11 @@ public class Course {
         this.courseName = courseName;
     }
 
-    public String getDate() {
-        return date;
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
     }
 }

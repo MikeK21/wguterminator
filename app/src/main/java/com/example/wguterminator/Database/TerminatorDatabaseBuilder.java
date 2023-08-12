@@ -14,7 +14,7 @@ import com.example.wguterminator.Entities.Course;
 import com.example.wguterminator.Entities.Term;
 
 //Increment everytime you make a change to entities, otherwise it wont build with changes
-@Database(entities = {Assessment.class,Course.class, Term.class}, version=2, exportSchema = false)
+@Database(entities = {Assessment.class,Course.class, Term.class}, version=4, exportSchema = false)
 public abstract class TerminatorDatabaseBuilder extends RoomDatabase {
         public abstract AssessmentDAO assessmentDAO();
         public abstract CourseDAO courseDAO();

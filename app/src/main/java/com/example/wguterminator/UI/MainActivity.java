@@ -11,7 +11,9 @@ import android.widget.Button;
 
 import com.example.wguterminator.Database.Repository;
 import com.example.wguterminator.Entities.Assessment;
+import com.example.wguterminator.Entities.AssessmentType;
 import com.example.wguterminator.Entities.Course;
+import com.example.wguterminator.Entities.CourseStatus;
 import com.example.wguterminator.Entities.Term;
 import com.example.wguterminator.R;
 
@@ -40,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
                 Term term = new Term(0, "May 2023", "05-01-2023");
                 Repository repository = new Repository(getApplication());
                 repository.insert(term);
-                Course course = new Course(0,"Biology of the Chesapeake", "05/01/2023");
+                Course course = new Course(0,"Biology of the Chesapeake", "05/01/2023", "11/01/2023", CourseStatus.plan_to_take, "Ron Rivera", "301-111-5555","riveraera@commanders.com");
                 repository.insert(course);
-                Assessment assessment = new Assessment(0, "Chesapeake Critters", "742.99");
+                Assessment assessment = new Assessment(0, "Chesapeake Critters", "05/01/2023", AssessmentType.performance);
                 repository.insert(assessment);
                 return true;
         }

@@ -51,6 +51,7 @@ public class TermDetails extends AppCompatActivity {
         for (Course c : repository.getmAllCourses()) {
             if (c.getCourseId() == id) filteredCourses.add(c);
         }
+        courseAdapter.setCourses(filteredCourses);
         Button button = findViewById(R.id.saveTerm);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,8 +59,7 @@ public class TermDetails extends AppCompatActivity {
                 if (id == -1) {
                     term = new Term(0, editName.getText().toString(), editDate.getText().toString());
                     repository.insert(term);
-                }
-                else {
+                } else {
                     term = new Term(id, editName.getText().toString(), editDate.getText().toString());
                     repository.update(term);
                 }
@@ -70,9 +70,29 @@ public class TermDetails extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(TermDetails.this,CourseList.class);
+                Intent intent = new Intent(TermDetails.this, CourseList.class);
+                intent.putExtra("termId", id);
                 startActivity(intent);
             }
         });
     }
-}
+        @Override
+        protected void onResume() {
+            super.onResume();
+            RecyclerView receyclerView = findViewById(R.id.courserecyclerview);
+            final CourseAdapter courseAdapter2 = new CourseAdapter(this);
+            receyclerView.setAdapter(courseAdapter2);
+            receyclerView.setLayoutManager(new LinearLayoutManager(this));
+            List<Course> filteredCourses2 = new ArrayList<>();
+            for (Course c : repository.getmAllCourses()) {
+                if (c.getCourseId() == id) filteredCourses2.add(c);
+            }
+            courseAdapter2.setCourses(filteredCourses2);
+        }
+
+        //pick up at ProductDetails.java line 101 from dolphinlive github
+
+
+
+
+    }
