@@ -5,9 +5,11 @@ import android.app.Application;
 import com.example.wguterminator.DAO.AssessmentDAO;
 import com.example.wguterminator.DAO.CourseDAO;
 import com.example.wguterminator.DAO.TermDAO;
+import com.example.wguterminator.DAO.UserDAO;
 import com.example.wguterminator.Entities.Assessment;
 import com.example.wguterminator.Entities.Course;
 import com.example.wguterminator.Entities.Term;
+import com.example.wguterminator.Entities.User;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -17,10 +19,12 @@ public class Repository {
     private AssessmentDAO mAssessmentDAO;
     private CourseDAO mCourseDAO;
     private TermDAO mTermDAO;
+    private UserDAO mUserDAO;
 
     private List<Assessment> mAllAssessments;
     private List<Course> mAllCourses;
     private List<Term> mAllTerms;
+    private List<User> mAllUsers;
 
     private static int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
@@ -31,6 +35,7 @@ public class Repository {
         mTermDAO = db.termDAO();
         mCourseDAO = db.courseDAO();
         mAssessmentDAO = db.assessmentDAO();
+        mUserDAO = db.userDAO();
     }
 
     public List<Term> getmAllTerms() {
@@ -161,6 +166,51 @@ public class Repository {
     public void delete(Assessment assessment) {
         databaseExecutor.execute(()->{
             mAssessmentDAO.delete(assessment);
+        });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<User> getmAllUsers() {
+        databaseExecutor.execute(() ->{
+            mAllUsers = mUserDAO.getAllUsers();
+        });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return mAllUsers;
+    }
+
+    public void insert(User user) {
+        databaseExecutor.execute(()->{
+            mUserDAO.insert(user);
+        });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void update(User user) {
+        databaseExecutor.execute(()->{
+            mUserDAO.update(user);
+        });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void delete(User user) {
+        databaseExecutor.execute(()->{
+            mUserDAO.delete(user);
         });
         try {
             Thread.sleep(1000);
