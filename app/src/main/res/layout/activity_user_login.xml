@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <Button
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
@@ -15,52 +16,100 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.866" />
+        app:layout_constraintVertical_bias="0.688" />
 
-
-    <TextView
-        android:id="@+id/userNameText"
-        android:layout_width="75dp"
-        android:layout_height="18dp"
-        android:text="User Name: "
-        app:layout_constraintBottom_toTopOf="@+id/passwordText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.113"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.864" />
-
-    <TextView
-        android:id="@+id/passwordText"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutCompat2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="384dp"
-        android:text="Password"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutCompat"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.146"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.916">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="178dp"
-        android:layout_height="20dp"
-        android:layout_margin="10dp"
-        android:hint="Password"
-        android:orientation="horizontal"
-        app:layout_constraintLeft_toRightOf="@+id/passwordText"
-        app:layout_constraintTop_toTopOf="@+id/passwordText"
-        app:counterEnabled="true"
-        app:counterMaxLength="16"
-        app:endIconMode="password_toggle"
-        tools:layout_editor_absoluteX="9dp"
-        tools:layout_editor_absoluteY="86dp">
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:layout_margin="30dp"
+            android:hint="UserName"
+            android:orientation="horizontal"
+            app:boxBackgroundMode="outline"
+            app:boxBackgroundColor="@color/white"
+            app:counterEnabled="true"
+            app:counterMaxLength="16"
+            app:endIconMode="clear_text"
+            app:helperText="Enter UserName"
+            app:helperTextEnabled="true"
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            app:helperTextTextColor="@color/purple_200"
+            app:layout_constraintLeft_toRightOf="@+id/userNameText"
+            app:layout_constraintTop_toTopOf="@+id/userNameText"
+
             tools:layout_editor_absoluteX="9dp"
-            tools:layout_editor_absoluteY="86dp" />
-    </com.google.android.material.textfield.TextInputLayout>
+            tools:layout_editor_absoluteY="86dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout_editor_absoluteX="9dp"
+                tools:layout_editor_absoluteY="86dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutCompat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/loginButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="250dp"
+                android:layout_height="60dp"
+                android:layout_margin="30dp"
+                android:hint="Password"
+                android:orientation="horizontal"
+                app:boxBackgroundMode="outline"
+                app:boxBackgroundColor="@color/white"
+                app:counterEnabled="true"
+                app:counterMaxLength="16"
+                app:endIconMode="password_toggle"
+                app:layout_constraintLeft_toRightOf="@+id/passwordText"
+                app:layout_constraintTop_toTopOf="@+id/passwordText"
+                tools:layout_editor_absoluteX="9dp"
+                tools:layout_editor_absoluteY="86dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textPassword"
+                    android:textSize="16sp"
+                    tools:layout_editor_absoluteX="9dp"
+                    tools:layout_editor_absoluteY="86dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <TextView
+        android:id="@+id/userNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="276dp"
+        android:text="UserName"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutCompat2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

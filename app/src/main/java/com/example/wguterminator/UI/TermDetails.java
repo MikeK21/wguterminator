@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.example.wguterminator.Database.Repository;
@@ -16,8 +18,13 @@ import com.example.wguterminator.Entities.Term;
 import com.example.wguterminator.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class TermDetails extends AppCompatActivity {
 
@@ -28,7 +35,8 @@ public class TermDetails extends AppCompatActivity {
     int id;
     Repository repository;
     Term term;
-
+    DatePickerDialog.OnDateSetListener startDate;
+    final Calendar myCalendarStart = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +44,14 @@ public class TermDetails extends AppCompatActivity {
         setContentView(R.layout.activity_term_details);
         editDate = findViewById(R.id.termDate);
         editName = findViewById(R.id.termName);
+        String myFormat = "MM/dd/yy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        editDate.setText(sdf.format(new Date()));
         name = getIntent().getStringExtra("name");
         date = getIntent().getStringExtra("date");
         editName.setText(name);
         editDate.setText(date);
+        id = getIntent().getIntExtra("id", -1);
         repository = new Repository(getApplication());
         RecyclerView recyclerView = findViewById(R.id.courserecyclerview);
         repository = new Repository(getApplication());
@@ -75,8 +87,49 @@ public class TermDetails extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        editDate.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Date date;
+                //get value from other screen,but I'm going to hard code it right now
+                String info = editDate.getText().toString();
+                if (info.equals("")) info = "09/12/23";
+                try {
+                    myCalendarStart.setTime(sdf.parse(info));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                new DatePickerDialog(TermDetails.this, startDate, myCalendarStart
+                        .get(Calendar.YEAR), myCalendarStart.get(Calendar.MONTH),
+                        myCalendarStart.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+        startDate = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                myCalendarStart.set(Calendar.YEAR, year);
+                myCalendarStart.set(Calendar.MONTH, monthOfYear);
+                myCalendarStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+
+                updateLabelStart();
+            }
+
+        };
     }
-        @Override
+    private void updateLabelStart() {
+        String myFormat = "MM/dd/yy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        editDate.setText(sdf.format(myCalendarStart.getTime()));
+    }
+
+    @Override
         protected void onResume() {
             super.onResume();
             RecyclerView receyclerView = findViewById(R.id.courserecyclerview);

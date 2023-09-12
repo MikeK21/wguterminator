@@ -40,6 +40,15 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".UI.UserLogin"
+            android:exported="false"
+            android:label="User Login"
+            android:parentActivityName=".UI.UserLogin">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".UI.MainActivity"
             android:exported="true">
             <intent-filter>
