@@ -103,15 +103,16 @@ public class TermDetails extends AppCompatActivity {
                 Date date;
                 //get value from other screen,but I'm going to hard code it right now
                 String info = editDate.getText().toString();
-                String endInfo = editEndDate.getText().toString();
+                //String endInfo = editEndDate.getText().toString();
                 if (info.equals("")) info = "09/01/23";
-                if (endInfo.equals("")) endInfo = "03/01/24";
+                //if (endInfo.equals("")) endInfo = "03/01/24";
                 try {
                     myCalendarStart.setTime(sdf.parse(info));
-                    myCalendarEnd.setTime(sdf.parse(endInfo));
+                    //myCalendarEnd.setTime(sdf.parse(endInfo));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+                /*
                 switch (v.getId()) {
                     case R.id.termDate:
                         new DatePickerDialog(TermDetails.this, startDate, myCalendarStart
@@ -122,8 +123,35 @@ public class TermDetails extends AppCompatActivity {
                                 .get(Calendar.YEAR), myCalendarEnd.get(Calendar.MONTH),
                                 myCalendarEnd.get(Calendar.DAY_OF_MONTH)).show();
                 }
+
+                 */
+                new DatePickerDialog(TermDetails.this, startDate, myCalendarStart
+                        .get(Calendar.YEAR), myCalendarStart.get(Calendar.MONTH),
+                        myCalendarStart.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+
+        editEndDate.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Date date;
+                //get value from other screen,but I'm going to hard code it right now
+                String endInfo = editEndDate.getText().toString();
+                if (endInfo.equals("")) endInfo = "03/01/24";
+                try {
+                    myCalendarEnd.setTime(sdf.parse(endInfo));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                new DatePickerDialog(TermDetails.this, endDate, myCalendarEnd
+                        .get(Calendar.YEAR), myCalendarEnd.get(Calendar.MONTH),
+                        myCalendarEnd.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
         startDate = new DatePickerDialog.OnDateSetListener() {
 
             @Override
