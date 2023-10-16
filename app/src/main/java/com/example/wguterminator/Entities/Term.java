@@ -15,11 +15,13 @@ public class Term {
     private int termId;
     private String termName;
     private String termDate;
+    private String termEndDate;
 
-    public Term(int termId, String termName, String termDate) {
+    public Term(int termId, String termName, String termDate, String termEndDate) {
         this.termId = termId;
         this.termName = termName;
         this.termDate = termDate;
+        this.termEndDate = termEndDate;
     }
 
     public Term() {
@@ -47,5 +49,13 @@ public class Term {
 
     public void setTermDate(String termDate) {
         this.termDate = termDate;
+    }
+
+    public String getTermEndDate() {
+        return termEndDate;
+    }
+
+    public void setTermEndDate(String termEndDate) {
+        this.termEndDate = termEndDate;
     }
 }

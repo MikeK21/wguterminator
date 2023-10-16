@@ -30,27 +30,34 @@ public class TermDetails extends AppCompatActivity {
 
     EditText editName;
     EditText editDate;
+    EditText editEndDate;
     String name;
     String date;
+    String stringEndDate;
     int id;
     Repository repository;
     Term term;
     DatePickerDialog.OnDateSetListener startDate;
+    DatePickerDialog.OnDateSetListener endDate;
     final Calendar myCalendarStart = Calendar.getInstance();
+    final Calendar myCalendarEnd = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_term_details);
         editDate = findViewById(R.id.termDate);
+        editEndDate = findViewById(R.id.termEndDate);
         editName = findViewById(R.id.termName);
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         editDate.setText(sdf.format(new Date()));
         name = getIntent().getStringExtra("name");
         date = getIntent().getStringExtra("date");
+        stringEndDate = getIntent().getStringExtra("stringEndDate");
         editName.setText(name);
         editDate.setText(date);
+        editEndDate.setText(stringEndDate);
         id = getIntent().getIntExtra("id", -1);
         repository = new Repository(getApplication());
         RecyclerView recyclerView = findViewById(R.id.courserecyclerview);
@@ -69,10 +76,10 @@ public class TermDetails extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (id == -1) {
-                    term = new Term(0, editName.getText().toString(), editDate.getText().toString());
+                    term = new Term(0, editName.getText().toString(), editDate.getText().toString(), editEndDate.getText().toString());
                     repository.insert(term);
                 } else {
-                    term = new Term(id, editName.getText().toString(), editDate.getText().toString());
+                    term = new Term(id, editName.getText().toString(), editDate.getText().toString(), editEndDate.getText().toString());
                     repository.update(term);
                 }
             }
@@ -96,15 +103,25 @@ public class TermDetails extends AppCompatActivity {
                 Date date;
                 //get value from other screen,but I'm going to hard code it right now
                 String info = editDate.getText().toString();
-                if (info.equals("")) info = "09/12/23";
+                String endInfo = editEndDate.getText().toString();
+                if (info.equals("")) info = "09/01/23";
+                if (endInfo.equals("")) endInfo = "03/01/24";
                 try {
                     myCalendarStart.setTime(sdf.parse(info));
+                    myCalendarEnd.setTime(sdf.parse(endInfo));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                new DatePickerDialog(TermDetails.this, startDate, myCalendarStart
-                        .get(Calendar.YEAR), myCalendarStart.get(Calendar.MONTH),
-                        myCalendarStart.get(Calendar.DAY_OF_MONTH)).show();
+                switch (v.getId()) {
+                    case R.id.termDate:
+                        new DatePickerDialog(TermDetails.this, startDate, myCalendarStart
+                                .get(Calendar.YEAR), myCalendarStart.get(Calendar.MONTH),
+                                myCalendarStart.get(Calendar.DAY_OF_MONTH)).show();
+                    case R.id.termEndDate:
+                        new DatePickerDialog(TermDetails.this, endDate, myCalendarEnd
+                                .get(Calendar.YEAR), myCalendarEnd.get(Calendar.MONTH),
+                                myCalendarEnd.get(Calendar.DAY_OF_MONTH)).show();
+                }
             }
         });
         startDate = new DatePickerDialog.OnDateSetListener() {
@@ -112,6 +129,7 @@ public class TermDetails extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
+
                 myCalendarStart.set(Calendar.YEAR, year);
                 myCalendarStart.set(Calendar.MONTH, monthOfYear);
                 myCalendarStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -121,12 +139,33 @@ public class TermDetails extends AppCompatActivity {
             }
 
         };
+        endDate = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                myCalendarEnd.set(Calendar.YEAR, year);
+                myCalendarEnd.set(Calendar.MONTH, monthOfYear);
+                myCalendarEnd.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                updateLabelEnd();
+            }
+
+        };
+
     }
     private void updateLabelStart() {
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         editDate.setText(sdf.format(myCalendarStart.getTime()));
+    }
+
+    private void updateLabelEnd() {
+        String myFormat = "MM/dd/yy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        editEndDate.setText(sdf.format(myCalendarEnd.getTime()));
     }
 
     @Override

@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 Repository repository = new Repository(getApplication());
                 User user = new User(0, "MK", "password");
                 repository.insert(user);
-                Term term = new Term(0, "May 2023", "05-01-2023");
+                Term term = new Term(0, "May 2023", "05-01-2023", "11-01-2023");
                 repository.insert(term);
                 Course course = new Course(0,"Biology of the Chesapeake", "05/01/2023", "11/01/2023", CourseStatus.plan_to_take, "Ron Rivera", "301-111-5555","riveraera@commanders.com");
                 repository.insert(course);
