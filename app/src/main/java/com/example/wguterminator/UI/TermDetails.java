@@ -34,7 +34,9 @@ public class TermDetails extends AppCompatActivity {
     String name;
     String date;
     String stringEndDate;
+    String stringId;
     int id;
+    EditText editId;
     Repository repository;
     Term term;
     DatePickerDialog.OnDateSetListener startDate;
@@ -46,19 +48,22 @@ public class TermDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_term_details);
+        editId = findViewById(R.id.termId);
         editDate = findViewById(R.id.termDate);
         editEndDate = findViewById(R.id.termEndDate);
         editName = findViewById(R.id.termName);
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         editDate.setText(sdf.format(new Date()));
+        stringId = getIntent().getStringExtra("id");
+        id = getIntent().getIntExtra("id", -1);
         name = getIntent().getStringExtra("name");
         date = getIntent().getStringExtra("date");
-        stringEndDate = getIntent().getStringExtra("stringEndDate");
+        stringEndDate = getIntent().getStringExtra("endDate");
+        editId.setText(stringId);
         editName.setText(name);
         editDate.setText(date);
         editEndDate.setText(stringEndDate);
-        id = getIntent().getIntExtra("id", -1);
         repository = new Repository(getApplication());
         RecyclerView recyclerView = findViewById(R.id.courserecyclerview);
         repository = new Repository(getApplication());
@@ -89,8 +94,18 @@ public class TermDetails extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(TermDetails.this, CourseList.class);
+                Intent intent = new Intent(TermDetails.this, TermList.class);
                 intent.putExtra("termId", id);
+                startActivity(intent);
+            }
+        });
+
+        FloatingActionButton fab2 = findViewById(R.id.floatingActionButtonCourses);
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TermDetails.this, CourseDetails.class);
+                intent.putExtra("courseId", id);
                 startActivity(intent);
             }
         });
@@ -112,19 +127,6 @@ public class TermDetails extends AppCompatActivity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                /*
-                switch (v.getId()) {
-                    case R.id.termDate:
-                        new DatePickerDialog(TermDetails.this, startDate, myCalendarStart
-                                .get(Calendar.YEAR), myCalendarStart.get(Calendar.MONTH),
-                                myCalendarStart.get(Calendar.DAY_OF_MONTH)).show();
-                    case R.id.termEndDate:
-                        new DatePickerDialog(TermDetails.this, endDate, myCalendarEnd
-                                .get(Calendar.YEAR), myCalendarEnd.get(Calendar.MONTH),
-                                myCalendarEnd.get(Calendar.DAY_OF_MONTH)).show();
-                }
-
-                 */
                 new DatePickerDialog(TermDetails.this, startDate, myCalendarStart
                         .get(Calendar.YEAR), myCalendarStart.get(Calendar.MONTH),
                         myCalendarStart.get(Calendar.DAY_OF_MONTH)).show();
@@ -199,13 +201,19 @@ public class TermDetails extends AppCompatActivity {
     @Override
         protected void onResume() {
             super.onResume();
-            RecyclerView receyclerView = findViewById(R.id.courserecyclerview);
+            RecyclerView recyclerView = findViewById(R.id.courserecyclerview);
             final CourseAdapter courseAdapter2 = new CourseAdapter(this);
-            receyclerView.setAdapter(courseAdapter2);
-            receyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(courseAdapter2);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
             List<Course> filteredCourses2 = new ArrayList<>();
             for (Course c : repository.getmAllCourses()) {
-                if (c.getCourseId() == id) filteredCourses2.add(c);
+                if (c.getTermId() != 0 && c.getCourseId() == c.getTermId()) {
+                    courseAdapter2.setCourses(filteredCourses2);
+                    filteredCourses2.add(c);
+                }
+                else if (c.getCourseId() == id) {
+                    filteredCourses2.add(c);
+                }
             }
             courseAdapter2.setCourses(filteredCourses2);
         }

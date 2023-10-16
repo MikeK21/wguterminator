@@ -40,6 +40,15 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".UI.TermList"
+            android:exported="false"
+            android:label="Term List"
+            android:parentActivityName=".UI.TermDetails">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".UI.UserLogin"
             android:exported="false"
             android:label="User Login"

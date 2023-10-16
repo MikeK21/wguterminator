@@ -13,6 +13,7 @@ Course object
 public class Course {
     @PrimaryKey(autoGenerate = true)
     private int courseId;
+    private int termId;
     private String courseName;
 
     public CourseStatus getStatus() {
@@ -62,9 +63,10 @@ public class Course {
         this.endDate = endDate;
     }
 
-    public Course(int courseId, String courseName, String startDate, String endDate, CourseStatus status,
+    public Course(int courseId, int termId, String courseName, String startDate, String endDate, CourseStatus status,
                   String courseInstructorName, String courseInstructorNumber, String courseInstructorEmail) {
         this.courseId = courseId;
+        this.termId = termId;
         this.courseName = courseName;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -83,6 +85,14 @@ public class Course {
 
     public void setCourseId(int courseId) {
         this.courseId = courseId;
+    }
+
+    public int getTermId() {
+        return termId;
+    }
+
+    public void setTermId(int termId) {
+        this.termId = termId;
     }
 
     public String getCourseName() {
