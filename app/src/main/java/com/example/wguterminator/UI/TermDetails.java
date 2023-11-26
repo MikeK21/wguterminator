@@ -36,6 +36,7 @@ public class TermDetails extends AppCompatActivity {
     String stringEndDate;
     String stringId;
     int id;
+    int termId;
     EditText editId;
     Repository repository;
     Term term;
@@ -56,7 +57,7 @@ public class TermDetails extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         editDate.setText(sdf.format(new Date()));
         stringId = getIntent().getStringExtra("id");
-        id = getIntent().getIntExtra("id", -1);
+        termId = getIntent().getIntExtra("termId", -1);
         name = getIntent().getStringExtra("name");
         date = getIntent().getStringExtra("date");
         stringEndDate = getIntent().getStringExtra("endDate");
@@ -73,7 +74,7 @@ public class TermDetails extends AppCompatActivity {
         //Added this at end of video 3
         List<Course> filteredCourses = new ArrayList<>();
         for (Course c : repository.getmAllCourses()) {
-            if (c.getCourseId() == id) filteredCourses.add(c);
+            if (c.getTermId() == termId) filteredCourses.add(c);
         }
         courseAdapter.setCourses(filteredCourses);
         Button button = findViewById(R.id.saveTerm);
@@ -207,8 +208,7 @@ public class TermDetails extends AppCompatActivity {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             List<Course> filteredCourses2 = new ArrayList<>();
             for (Course c : repository.getmAllCourses()) {
-                if (c.getTermId() != 0 && c.getCourseId() == c.getTermId()) {
-                    courseAdapter2.setCourses(filteredCourses2);
+                if (c.getTermId() != 0 && c.getTermId() == termId) {
                     filteredCourses2.add(c);
                 }
                 else if (c.getCourseId() == id) {
