@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +15,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import com.example.wguterminator.DAO.TermDAO;
 import com.example.wguterminator.Database.Repository;
 import com.example.wguterminator.Entities.Course;
 import com.example.wguterminator.Entities.Term;
@@ -25,6 +29,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import android.content.Context;
+
 
 public class TermDetails extends AppCompatActivity {
 
@@ -44,6 +50,21 @@ public class TermDetails extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener endDate;
     final Calendar myCalendarStart = Calendar.getInstance();
     final Calendar myCalendarEnd = Calendar.getInstance();
+
+    private void showAlertDialog(String message) {
+        AlertDialog dialog =  new AlertDialog.Builder(TermDetails.this)
+                .setTitle("Course ID Error")
+                .setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
+        dialog.show();
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +111,23 @@ public class TermDetails extends AppCompatActivity {
                 }
             }
         });
+
+        Button deleteButton = findViewById(R.id.deleteTerm);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (termId != 0) {
+                    for (Term term : repository.getmAllTerms()) {
+                        if (term.getTermId() == termId) {
+                            repository.delete(term);
+                        }
+                    }} else {
+                    showAlertDialog("Cannot delete a term where that a course is assigned to!");
+                }
+            }
+        });
+
+
 
         FloatingActionButton fab = findViewById(R.id.floatingActionButton3);
         fab.setOnClickListener(new View.OnClickListener() {

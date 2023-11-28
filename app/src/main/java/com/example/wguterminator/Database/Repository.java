@@ -1,6 +1,7 @@
 package com.example.wguterminator.Database;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.example.wguterminator.DAO.AssessmentDAO;
 import com.example.wguterminator.DAO.CourseDAO;
@@ -73,6 +74,13 @@ public class Repository {
     }
 
     public void delete(Term term) {
+       List<Course> courseList = mCourseDAO.getAllCourses();
+       for (Course course : courseList ) {
+           if (course.getTermId() == term.getTermId()) {
+               System.out.println("Unable to delete Term - in use for Course: "
+               + course.getTermId());
+           }
+       }
         databaseExecutor.execute(()->{
             mTermDAO.delete(term);
         });
