@@ -15,6 +15,7 @@ import com.example.wguterminator.Entities.User;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Logger;
 
 public class Repository {
     private AssessmentDAO mAssessmentDAO;
@@ -73,17 +74,25 @@ public class Repository {
         }
     }
 
-    public void delete(Term term) {
-       List<Course> courseList = mCourseDAO.getAllCourses();
+    public void delete(Term term, List<Course> courseList) {
+
+       //List<Course> assocCourseList = mCourseDAO.getAllAssociatedCourses(term.getTermId())
+       boolean flagNoDelete = false;
        for (Course course : courseList ) {
            if (course.getTermId() == term.getTermId()) {
-               System.out.println("Unable to delete Term - in use for Course: "
+               Log.i("INFO","Unable to delete Term - in use for Course: "
                + course.getTermId());
+               flagNoDelete = true;
            }
        }
-        databaseExecutor.execute(()->{
-            mTermDAO.delete(term);
-        });
+       if (flagNoDelete) {
+           Log.i("INFO","There was a course");
+       }
+       if (!flagNoDelete) {
+           databaseExecutor.execute(() -> {
+               mTermDAO.delete(term);
+           });
+       }
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {

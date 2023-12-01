@@ -102,7 +102,7 @@ public class TermDetails extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (id == -1) {
+                if (termId == -1) {
                     term = new Term(0, editName.getText().toString(), editDate.getText().toString(), editEndDate.getText().toString());
                     repository.insert(term);
                 } else {
@@ -119,9 +119,10 @@ public class TermDetails extends AppCompatActivity {
                 if (termId != 0) {
                     for (Term term : repository.getmAllTerms()) {
                         if (term.getTermId() == termId) {
-                            repository.delete(term);
+                            repository.delete(term,repository.getmAllCourses());
                         }
-                    }} else {
+                    }
+                } else {
                     showAlertDialog("Cannot delete a term where that a course is assigned to!");
                 }
             }

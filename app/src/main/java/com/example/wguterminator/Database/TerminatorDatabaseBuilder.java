@@ -16,7 +16,7 @@ import com.example.wguterminator.Entities.Term;
 import com.example.wguterminator.Entities.User;
 
 //Increment everytime you make a change to entities, otherwise it wont build with changes
-@Database(entities = {Assessment.class, Course.class, Term.class, User.class}, version=8, exportSchema = false)
+@Database(entities = {Assessment.class, Course.class, Term.class, User.class}, version=10, exportSchema = false)
 public abstract class TerminatorDatabaseBuilder extends RoomDatabase {
         public abstract AssessmentDAO assessmentDAO();
         public abstract CourseDAO courseDAO();
@@ -29,8 +29,9 @@ public abstract class TerminatorDatabaseBuilder extends RoomDatabase {
             if(INSTANCE == null) {
                 synchronized (TerminatorDatabaseBuilder.class) {
                     if (INSTANCE == null) {
-                        INSTANCE = Room.databaseBuilder(context.getApplicationContext(),TerminatorDatabaseBuilder.class, "MyTerminatorDatabase.db")
+                        INSTANCE = Room.databaseBuilder(context.getApplicationContext(),TerminatorDatabaseBuilder.class, "MyTerminatorDatabase2.db")
                                 .fallbackToDestructiveMigration()
+                               // .allowMainThreadQueries()
                                 .build();
                     }
                 }
