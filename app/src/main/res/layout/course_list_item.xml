@@ -3,17 +3,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/cardview_default_elevation">
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
         android:text="TextView"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
     <!--android:layout_marginEnd="176dp"-->
         <!--tools:layout_editor_absoluteY="122dp" /-->
+
+    <TextView
+        android:id="@+id/textViewCourseStartDate"
+        android:textSize="14sp"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/textView2"
+        app:layout_constraintLeft_toRightOf="@id/textView2"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="73dp"
+        tools:layout_editor_absoluteY="122dp" />
+
+    <TextView
+        android:id="@+id/textViewCourseEndDate"
+        android:textSize="14sp"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/textViewCourseStartDate"
+        app:layout_constraintLeft_toRightOf="@id/textViewCourseStartDate"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="73dp"
+        tools:layout_editor_absoluteY="122dp" />
+    <TextView
+        android:id="@+id/textViewCourseStatus"
+        android:textSize="14sp"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/textViewCourseEndDate"
+        app:layout_constraintLeft_toRightOf="@id/textViewCourseEndDate"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="73dp"
+        tools:layout_editor_absoluteY="122dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

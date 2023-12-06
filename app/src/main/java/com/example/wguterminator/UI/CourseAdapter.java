@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.wguterminator.Entities.Course;
 import com.example.wguterminator.R;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseViewHolder> {
@@ -23,9 +25,15 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
 
     class CourseViewHolder extends RecyclerView.ViewHolder {
         private final TextView courseItemView;
+        private final TextView courseItemView2;
+        private final TextView courseItemView3;
+        private final TextView courseItemView4;
         private CourseViewHolder(View itemView) {
             super(itemView);
             courseItemView = itemView.findViewById(R.id.textView2);
+            courseItemView2 = itemView.findViewById(R.id.textViewCourseStartDate);
+            courseItemView3 = itemView.findViewById(R.id.textViewCourseEndDate);
+            courseItemView4 = itemView.findViewById(R.id.textViewCourseStatus);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -59,10 +67,19 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         if (mCourses != null) {
             Course current = mCourses.get(position);
             String name = current.getCourseName();
+            String startDate = current.getStartDate();
+            String endDate = current.getEndDate();
+            String status = current.getStatus().name();
             holder.courseItemView.setText(name);
+            holder.courseItemView2.setText(startDate);
+            holder.courseItemView3.setText(endDate);
+            holder.courseItemView4.setText(status);
         }
         else {
             holder.courseItemView.setText("No Course Name");
+            holder.courseItemView2.setText("No Date");
+            holder.courseItemView3.setText("No Date");
+            holder.courseItemView4.setText("No Status");
         }
 
     }
