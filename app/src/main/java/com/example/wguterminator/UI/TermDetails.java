@@ -40,7 +40,6 @@ public class TermDetails extends AppCompatActivity {
     String name;
     String date;
     String stringEndDate;
-    String stringId;
     int id;
     int termId;
     EditText editId;
@@ -70,19 +69,16 @@ public class TermDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_term_details);
-        editId = findViewById(R.id.termId);
         editDate = findViewById(R.id.termDate);
         editEndDate = findViewById(R.id.termEndDate);
         editName = findViewById(R.id.termName);
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         editDate.setText(sdf.format(new Date()));
-        stringId = getIntent().getStringExtra("id");
         termId = getIntent().getIntExtra("termId", -1);
         name = getIntent().getStringExtra("name");
         date = getIntent().getStringExtra("date");
         stringEndDate = getIntent().getStringExtra("endDate");
-        editId.setText(stringId);
         editName.setText(name);
         editDate.setText(date);
         editEndDate.setText(stringEndDate);

@@ -18,20 +18,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Term ID"/>
-                <EditText
-                    android:id="@+id/termId"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="none"
-                    android:focusable="false"
-                    android:textIsSelectable="true"
-                    android:hint="ID"/>
-            </LinearLayout>
+                android:orientation="horizontal"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -131,21 +118,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/scrollView"
         app:layout_constraintVertical_bias="0.377" />
-
-    <TextView
-        android:id="@+id/textViewTerms"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Terms"
-        tools:layout_editor_absoluteX="357dp"
-        tools:layout_editor_absoluteY="702dp" />
-
-    <TextView
-        android:id="@+id/textViewCourses"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Courses"
-        tools:layout_editor_absoluteX="21dp"
-        tools:layout_editor_absoluteY="702dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -25,13 +25,11 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder
         private final TextView termItemView;
         private final TextView termItemView2;
         private final TextView termItemView3;
-        private final TextView termItemView4;
         private TermViewHolder(View itemView) {
             super(itemView);
             termItemView = itemView.findViewById(R.id.textViewTermName);
             termItemView2 = itemView.findViewById(R.id.textViewTermDate);
             termItemView3 = itemView.findViewById(R.id.textViewTermEndDate);
-            termItemView4 = itemView.findViewById(R.id.textViewTermId);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -75,6 +73,8 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder
         }
         else {
             holder.termItemView.setText("No Term Name");
+            holder.termItemView2.setText("No Date");
+            holder.termItemView3.setText("No Date");
         }
 
     }
