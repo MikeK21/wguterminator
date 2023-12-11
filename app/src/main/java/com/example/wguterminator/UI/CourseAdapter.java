@@ -28,12 +28,14 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         private final TextView courseItemView2;
         private final TextView courseItemView3;
         private final TextView courseItemView4;
+        private final TextView courseItemView5;
         private CourseViewHolder(View itemView) {
             super(itemView);
             courseItemView = itemView.findViewById(R.id.textView2);
             courseItemView2 = itemView.findViewById(R.id.textViewCourseStartDate);
             courseItemView3 = itemView.findViewById(R.id.textViewCourseEndDate);
             courseItemView4 = itemView.findViewById(R.id.textViewCourseStatus);
+            courseItemView5 = itemView.findViewById(R.id.textViewCourseNote);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -43,7 +45,10 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                     intent.putExtra("id", current.getCourseId());
                     intent.putExtra("termId", current.getTermId());
                     intent.putExtra("name", current.getCourseName());
-                    intent.putExtra("date", current.getStartDate());
+                    intent.putExtra("startDate", current.getStartDate());
+                    intent.putExtra("endDate", current.getEndDate());
+                    intent.putExtra("status", current.getStatus());
+                    intent.putExtra("note", current.getCourseNote());
                     context.startActivity(intent);
                 }
             });
@@ -70,16 +75,19 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             String startDate = current.getStartDate();
             String endDate = current.getEndDate();
             String status = current.getStatus().name();
+            String note = current.getCourseNote();
             holder.courseItemView.setText(name);
             holder.courseItemView2.setText(startDate);
             holder.courseItemView3.setText(endDate);
             holder.courseItemView4.setText(status);
+            holder.courseItemView5.setText(note);
         }
         else {
             holder.courseItemView.setText("No Course Name");
             holder.courseItemView2.setText("No Date");
             holder.courseItemView3.setText("No Date");
             holder.courseItemView4.setText("No Status");
+            holder.courseItemView5.setText("Empty Note");
         }
 
     }

@@ -49,4 +49,14 @@
         android:text="TextView"
         tools:layout_editor_absoluteX="73dp"
         tools:layout_editor_absoluteY="122dp" />
+    <TextView
+        android:id="@+id/textViewCourseNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="@+id/textViewCourseStatus"
+        app:layout_constraintLeft_toRightOf="@id/textViewCourseStatus"
+        android:text="Textview"
+        tools:layout_editor_absoluteX="73dp"
+        tools:layout_editor_absoluteY="122dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

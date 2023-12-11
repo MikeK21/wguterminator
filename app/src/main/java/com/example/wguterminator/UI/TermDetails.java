@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Locale;
 import android.content.Context;
 
-
+// cmsoftware@wgu.edu
 public class TermDetails extends AppCompatActivity {
 
     EditText editName;

@@ -36,36 +36,60 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:hint="Start Date"/>
+
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="209dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Course End Date"/>
+                            android:text="Course End Date" />
+
                         <EditText
                             android:id="@+id/courseEndDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:hint="End Date"/>
+                            android:hint="End Date" />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
-            </LinearLayout>
-            </LinearLayout>
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <Button
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/saveCourse"
-                android:text="Save"/>
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Course Notes"/>
+                <EditText
+                    android:id="@+id/courseNotes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Notes Here">
+                </EditText>
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/saveCourse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Save" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
         </LinearLayout>
     </ScrollView>
 

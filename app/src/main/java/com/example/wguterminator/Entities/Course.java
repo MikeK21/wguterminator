@@ -54,6 +54,7 @@ public class Course {
     private String courseInstructorName;
     private String courseInstructorNumber;
     private String courseInstructorEmail;
+    private String courseNote;
 
     public String getEndDate() {
         return endDate;
@@ -64,7 +65,7 @@ public class Course {
     }
 
     public Course(int courseId, int termId, String courseName, String startDate, String endDate, CourseStatus status,
-                  String courseInstructorName, String courseInstructorNumber, String courseInstructorEmail) {
+                  String courseInstructorName, String courseInstructorNumber, String courseInstructorEmail, String courseNote) {
         this.courseId = courseId;
         this.termId = termId;
         this.courseName = courseName;
@@ -74,6 +75,7 @@ public class Course {
         this.courseInstructorName = courseInstructorName;
         this.courseInstructorNumber = courseInstructorNumber;
         this.courseInstructorEmail = courseInstructorEmail;
+        this.courseNote = courseNote;
     }
 
     public Course() {
@@ -110,4 +112,13 @@ public class Course {
     public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
+
+    public String getCourseNote() {
+        return courseNote;
+    }
+
+    public void setCourseNote(String courseNote) {
+        this.courseNote = courseNote;
+    }
+
 }
