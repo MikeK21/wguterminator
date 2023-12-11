@@ -1,14 +1,18 @@
 package com.example.wguterminator.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.example.wguterminator.Database.Repository;
 import com.example.wguterminator.Entities.Course;
@@ -31,7 +35,10 @@ public class CourseDetails extends AppCompatActivity {
     EditText editEndDate;
     EditText editNotes;
     EditText editStatus;
-    int id;
+    EditText editInstructorName;
+    EditText editInstructorEmail;
+    EditText editInstructorPhone;
+    int courseId;
     int termId;
     Course course;
     Repository repository;
@@ -41,9 +48,13 @@ public class CourseDetails extends AppCompatActivity {
     String status;
     String stringStartDate;
     String stringEndDate;
+    String instructorName;
+    String instructorEmail;
+    String instructorPhone;
     final Calendar myCalendarStart = Calendar.getInstance();
     final Calendar myCalendarEnd = Calendar.getInstance();
     String name;
+
 
 
     @Override
@@ -58,10 +69,18 @@ public class CourseDetails extends AppCompatActivity {
         editStartDate.setText(sdf.format(new Date()));
         editEndDate = findViewById(R.id.courseEndDate);
         editEndDate.setText(sdf.format(new Date()));
-        id = getIntent().getIntExtra("id", -1);
+        /*
+        editInstructorName.findViewById(R.id.courseInstructorName);
+        editInstructorEmail.findViewById(R.id.courseInstructorEmail);
+        editInstructorPhone.findViewById(R.id.courseInstructorPhone);
+        */
+        courseId = getIntent().getIntExtra("courseId", -1);
         termId = getIntent().getIntExtra("termId", -1);
         name = getIntent().getStringExtra("name");
         note = getIntent().getStringExtra("note");
+        instructorName = getIntent().getStringExtra("instructorName");
+        instructorEmail = getIntent().getStringExtra("instructorEmail");
+        instructorPhone = getIntent().getStringExtra("instructorPhone");
         stringStartDate = getIntent().getStringExtra("startDate");
         stringEndDate = getIntent().getStringExtra("endDate");
         status = getIntent().getStringExtra("status");
@@ -72,15 +91,27 @@ public class CourseDetails extends AppCompatActivity {
         editNotes.setText(note);
         editStartDate.setText(stringStartDate);
         editEndDate.setText(stringEndDate);
-        editNotes.setText(note);
+        /*
+        editInstructorName.setText(instructorName);
+        editInstructorEmail.setText(instructorEmail);
+        editInstructorPhone.setText(instructorPhone);
+
+         */
         repository = new Repository(getApplication());
+
+        ArrayList<CourseStatus> courseStatusList = new ArrayList<>();
+
+        ArrayAdapter<CourseStatus> courseStatusArrayAdapter = new ArrayAdapter<CourseStatus>(this,
+                android.R.layout.simple_spinner_item,courseStatusList);
+        Spinner spinner = findViewById(R.id.statusSpinner);
+        spinner.setAdapter(courseStatusArrayAdapter);
 
         FloatingActionButton fab = findViewById(R.id.floatingActionButton2);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CourseDetails.this, CourseList.class);
-                intent.putExtra("courseId", id);
+                intent.putExtra("courseId", courseId);
                 startActivity(intent);
             }
         });
@@ -88,21 +119,20 @@ public class CourseDetails extends AppCompatActivity {
         // Added this for end of part 3 videos
         List<Course> filteredCourses = new ArrayList<>();
         for (Course c : repository.getmAllCourses()) {
-            if (c.getCourseId() == id) filteredCourses.add(c);
+            if (c.getCourseId() == courseId) filteredCourses.add(c);
         }
         Button button = findViewById(R.id.saveCourse);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (id == -1) {
+                if (courseId == -1) {
                     course = new Course(0,0, editName.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString(), CourseStatus.in_progress,
-                            "name", "phonenumber","email", "notes");
+                            editInstructorName.getText().toString(), editInstructorPhone.getText().toString(),editInstructorEmail.getText().toString(), editNotes.getText().toString());
                     repository.insert(course);
                 }
                 else {
-                    course = new Course(id,termId, editName.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString(),CourseStatus.in_progress,
-                            "courseinstructorname", "instructorphone", "emailaddy", "notepad");
-                    repository.update(course);
+                    course = new Course(courseId,termId, editName.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString(),CourseStatus.in_progress,
+                            editInstructorName.getText().toString(), editInstructorPhone.getText().toString(),editInstructorEmail.getText().toString(), editNotes.getText().toString());                    repository.update(course);
                 }
             }
         });

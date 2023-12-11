@@ -26,6 +26,7 @@ public class TermList extends AppCompatActivity {
         recyclerView.setAdapter(termAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         repository = new Repository(getApplication());
+        final CourseAdapter courseAdapter = new CourseAdapter(this);
         List<Term> allTerms = repository.getmAllTerms();
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
         termAdapter.setTerms(allTerms);

@@ -22,13 +22,13 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     private List<Course> mCourses;
     private final Context context;
     private final LayoutInflater mInflater;
-
     class CourseViewHolder extends RecyclerView.ViewHolder {
         private final TextView courseItemView;
         private final TextView courseItemView2;
         private final TextView courseItemView3;
         private final TextView courseItemView4;
         private final TextView courseItemView5;
+        private final TextView courseInstructorItem;
         private CourseViewHolder(View itemView) {
             super(itemView);
             courseItemView = itemView.findViewById(R.id.textView2);
@@ -36,17 +36,21 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             courseItemView3 = itemView.findViewById(R.id.textViewCourseEndDate);
             courseItemView4 = itemView.findViewById(R.id.textViewCourseStatus);
             courseItemView5 = itemView.findViewById(R.id.textViewCourseNote);
+            courseInstructorItem = itemView.findViewById(R.id.textViewInstructorName);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     final Course current = mCourses.get(position);
                     Intent intent = new Intent(context, CourseDetails.class);
-                    intent.putExtra("id", current.getCourseId());
+                    intent.putExtra("courseId", current.getCourseId());
                     intent.putExtra("termId", current.getTermId());
                     intent.putExtra("name", current.getCourseName());
                     intent.putExtra("startDate", current.getStartDate());
                     intent.putExtra("endDate", current.getEndDate());
+                    intent.putExtra("instructorName", current.getCourseInstructorName());
+                    intent.putExtra("instructorEmail", current.getCourseInstructorEmail());
+                    intent.putExtra("instructorPhone", current.getCourseInstructorNumber());
                     intent.putExtra("status", current.getStatus());
                     intent.putExtra("note", current.getCourseNote());
                     context.startActivity(intent);
@@ -67,6 +71,17 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         return new CourseViewHolder(itemView);
     }
 
+    /*Testing
+    @NonNull
+    @Override
+    public CourseAdapter.CourseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = mInflater.inflate(R.layout.activity_course_details,parent,false);
+        return new CourseViewHolder(itemView);
+    }
+
+     */
+
+
     @Override
     public void onBindViewHolder(@NonNull CourseAdapter.CourseViewHolder holder, int position) {
         if (mCourses != null) {
@@ -76,11 +91,15 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             String endDate = current.getEndDate();
             String status = current.getStatus().name();
             String note = current.getCourseNote();
+            String instructorName = current.getCourseInstructorName();
+            String instructorEmail = current.getCourseInstructorEmail();
+            String instructorPhone = current.getCourseInstructorNumber();
             holder.courseItemView.setText(name);
             holder.courseItemView2.setText(startDate);
             holder.courseItemView3.setText(endDate);
             holder.courseItemView4.setText(status);
             holder.courseItemView5.setText(note);
+            holder.courseInstructorItem.setText(instructorName);
         }
         else {
             holder.courseItemView.setText("No Course Name");
@@ -88,6 +107,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             holder.courseItemView3.setText("No Date");
             holder.courseItemView4.setText("No Status");
             holder.courseItemView5.setText("Empty Note");
+            holder.courseInstructorItem.setText("Empty Teacher");
         }
 
     }
