@@ -15,6 +15,13 @@ public class Course {
     private int courseId;
     private int termId;
     private String courseName;
+    private String startDate;
+    private String endDate;
+    private CourseStatus status;
+    private String courseInstructorName;
+    private String courseInstructorNumber;
+    private String courseInstructorEmail;
+    private String courseNote;
 
     public CourseStatus getStatus() {
         return status;
@@ -48,13 +55,6 @@ public class Course {
         this.courseInstructorEmail = courseInstructorEmail;
     }
 
-    private String startDate;
-    private String endDate;
-    private CourseStatus status;
-    private String courseInstructorName;
-    private String courseInstructorNumber;
-    private String courseInstructorEmail;
-    private String courseNote;
 
     public String getEndDate() {
         return endDate;

@@ -34,6 +34,7 @@ public class CourseDetails extends AppCompatActivity {
     EditText editStartDate;
     EditText editEndDate;
     EditText editNotes;
+    EditText editAssignedInstructor;
     EditText editStatus;
     EditText editInstructorName;
     EditText editInstructorEmail;
@@ -62,15 +63,17 @@ public class CourseDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_details);
         editName = findViewById(R.id.courseName);
-        editNotes = findViewById(R.id.courseNotes);
+        editNotes = findViewById(R.id.courseNotez);
+        editAssignedInstructor = findViewById(R.id.assignedInstructor);
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         editStartDate = findViewById(R.id.courseStartDate);
         editStartDate.setText(sdf.format(new Date()));
         editEndDate = findViewById(R.id.courseEndDate);
         editEndDate.setText(sdf.format(new Date()));
+        editAssignedInstructor.findViewById(R.id.assignedInstructor);
+        //editInstructorName.setText(getIntent().getStringExtra("instructorName"));
         /*
-        editInstructorName.findViewById(R.id.courseInstructorName);
         editInstructorEmail.findViewById(R.id.courseInstructorEmail);
         editInstructorPhone.findViewById(R.id.courseInstructorPhone);
         */
@@ -91,11 +94,10 @@ public class CourseDetails extends AppCompatActivity {
         editNotes.setText(note);
         editStartDate.setText(stringStartDate);
         editEndDate.setText(stringEndDate);
+        editAssignedInstructor.setText(instructorName);
         /*
-        editInstructorName.setText(instructorName);
         editInstructorEmail.setText(instructorEmail);
         editInstructorPhone.setText(instructorPhone);
-
          */
         repository = new Repository(getApplication());
 
@@ -127,12 +129,13 @@ public class CourseDetails extends AppCompatActivity {
             public void onClick(View view) {
                 if (courseId == -1) {
                     course = new Course(0,0, editName.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString(), CourseStatus.in_progress,
-                            editInstructorName.getText().toString(), editInstructorPhone.getText().toString(),editInstructorEmail.getText().toString(), editNotes.getText().toString());
+                            editAssignedInstructor.getText().toString(), editInstructorPhone.getText().toString(),editInstructorEmail.getText().toString(), editNotes.getText().toString());
                     repository.insert(course);
                 }
                 else {
                     course = new Course(courseId,termId, editName.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString(),CourseStatus.in_progress,
-                            editInstructorName.getText().toString(), editInstructorPhone.getText().toString(),editInstructorEmail.getText().toString(), editNotes.getText().toString());                    repository.update(course);
+                            editAssignedInstructor.getText().toString(), editInstructorPhone.getText().toString(),editInstructorEmail.getText().toString(), editNotes.getText().toString());
+                    repository.update(course);
                 }
             }
         });

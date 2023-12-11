@@ -34,7 +34,7 @@
             android:name=".UI.CourseList"
             android:exported="false"
             android:label="Course List"
-            android:parentActivityName=".UI.MainActivity">
+            android:parentActivityName=".UI.CourseDetails">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

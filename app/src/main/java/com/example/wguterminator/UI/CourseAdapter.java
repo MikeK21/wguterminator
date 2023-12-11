@@ -29,6 +29,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         private final TextView courseItemView4;
         private final TextView courseItemView5;
         private final TextView courseInstructorItem;
+        private final TextView courseItemView6;
         private CourseViewHolder(View itemView) {
             super(itemView);
             courseItemView = itemView.findViewById(R.id.textView2);
@@ -36,7 +37,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             courseItemView3 = itemView.findViewById(R.id.textViewCourseEndDate);
             courseItemView4 = itemView.findViewById(R.id.textViewCourseStatus);
             courseItemView5 = itemView.findViewById(R.id.textViewCourseNote);
-            courseInstructorItem = itemView.findViewById(R.id.textViewInstructorName);
+            courseInstructorItem = itemView.findViewById(R.id.courseInstructorName);
+            courseItemView6 = itemView.findViewById(R.id.assignedInstructor);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -53,6 +55,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                     intent.putExtra("instructorPhone", current.getCourseInstructorNumber());
                     intent.putExtra("status", current.getStatus());
                     intent.putExtra("note", current.getCourseNote());
+                    intent.putExtra("assignedInstructor", current.getCourseInstructorName());
                     context.startActivity(intent);
                 }
             });
@@ -63,6 +66,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         mInflater = LayoutInflater.from(context);
         this.context = context;
     }
+
 
     @NonNull
     @Override
@@ -94,12 +98,13 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             String instructorName = current.getCourseInstructorName();
             String instructorEmail = current.getCourseInstructorEmail();
             String instructorPhone = current.getCourseInstructorNumber();
+            String assignedInstructor = current.getCourseInstructorName();
             holder.courseItemView.setText(name);
             holder.courseItemView2.setText(startDate);
             holder.courseItemView3.setText(endDate);
             holder.courseItemView4.setText(status);
             holder.courseItemView5.setText(note);
-            holder.courseInstructorItem.setText(instructorName);
+            holder.courseItemView6.setText(assignedInstructor);
         }
         else {
             holder.courseItemView.setText("No Course Name");
@@ -108,6 +113,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             holder.courseItemView4.setText("No Status");
             holder.courseItemView5.setText("Empty Note");
             holder.courseInstructorItem.setText("Empty Teacher");
+            holder.courseItemView6.setText("No assignment");
         }
 
     }

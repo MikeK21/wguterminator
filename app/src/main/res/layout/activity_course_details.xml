@@ -97,30 +97,36 @@
                     android:text="Course Notes" />
 
                 <EditText
-                    android:id="@+id/courseNotes"
+                    android:id="@+id/courseNotez"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:hint="Enter Notes Here"></EditText>
 
-                <LinearLayout
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:orientation="vertical">
+                    android:text="Assigned Instructor"/>
+                <EditText
+                    android:id="@+id/assignedInstructor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:hint="Assigned Instructor"></EditText>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Course Instructor" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Course Instructor" />
-
-                    <EditText
-                        android:id="@+id/courseInstructorName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="Enter Instructor Name"></EditText>
-                </LinearLayout>
+                <EditText
+                    android:id="@+id/courseInstructorName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:hint="Enter Instructor Name"></EditText>
 
 
                     <TextView
