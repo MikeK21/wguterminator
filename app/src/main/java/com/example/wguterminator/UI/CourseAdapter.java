@@ -28,7 +28,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         //private final TextView courseItemView3;
         private final TextView courseItemView4;
         //private final TextView courseItemView5;
-        private final TextView courseInstructorItem;
         private final TextView courseItemView6;
         private final TextView courseItemView7;
         private final TextView courseItemView8;
@@ -39,7 +38,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             //courseItemView3 = itemView.findViewById(R.id.textViewCourseEndDate);
             courseItemView4 = itemView.findViewById(R.id.textViewCourseStatus);
             //courseItemView5 = itemView.findViewById(R.id.textViewCourseNote);
-            courseInstructorItem = itemView.findViewById(R.id.courseInstructorName);
             courseItemView6 = itemView.findViewById(R.id.assignedInstructor);
             courseItemView7 = itemView.findViewById(R.id.courseInstructorEmail);
             courseItemView8 = itemView.findViewById(R.id.courseInstructorPhone);

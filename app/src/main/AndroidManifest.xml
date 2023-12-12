@@ -13,10 +13,24 @@
         android:theme="@style/Theme.WGUTerminator"
         tools:targetApi="31">
         <activity
-            android:name=".UI.TermDetails"
-            android:label="Term Details"
-            android:parentActivityName=".UI.CourseDetails"
+            android:name=".AssessmentList"
             android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".AssessmentDetails"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".UI.TermDetails"
+            android:exported="false"
+            android:label="Term Details"
+            android:parentActivityName=".UI.CourseDetails">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
