@@ -1,8 +1,10 @@
-package com.example.wguterminator;
+package com.example.wguterminator.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.wguterminator.R;
 
 public class AssessmentList extends AppCompatActivity {
 

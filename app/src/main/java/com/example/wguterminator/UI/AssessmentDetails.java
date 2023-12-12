@@ -1,4 +1,4 @@
-package com.example.wguterminator;
+package com.example.wguterminator.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,7 @@ import android.widget.EditText;
 
 
 import com.example.wguterminator.Entities.AssessmentType;
+import com.example.wguterminator.R;
 
 public class AssessmentDetails extends AppCompatActivity {
 

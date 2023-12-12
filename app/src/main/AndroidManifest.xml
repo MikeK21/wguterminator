@@ -13,14 +13,14 @@
         android:theme="@style/Theme.WGUTerminator"
         tools:targetApi="31">
         <activity
-            android:name=".AssessmentList"
+            android:name=".UI.AssessmentList"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".AssessmentDetails"
+            android:name=".UI.AssessmentDetails"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
