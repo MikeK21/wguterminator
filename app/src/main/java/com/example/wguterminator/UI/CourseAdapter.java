@@ -24,10 +24,10 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     private final LayoutInflater mInflater;
     class CourseViewHolder extends RecyclerView.ViewHolder {
         private final TextView courseItemView;
-        private final TextView courseItemView2;
-        private final TextView courseItemView3;
+        //private final TextView courseItemView2;
+        //private final TextView courseItemView3;
         private final TextView courseItemView4;
-        private final TextView courseItemView5;
+        //private final TextView courseItemView5;
         private final TextView courseInstructorItem;
         private final TextView courseItemView6;
         private final TextView courseItemView7;
@@ -35,10 +35,10 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         private CourseViewHolder(View itemView) {
             super(itemView);
             courseItemView = itemView.findViewById(R.id.textView2);
-            courseItemView2 = itemView.findViewById(R.id.textViewCourseStartDate);
-            courseItemView3 = itemView.findViewById(R.id.textViewCourseEndDate);
+            //courseItemView2 = itemView.findViewById(R.id.textViewCourseStartDate);
+            //courseItemView3 = itemView.findViewById(R.id.textViewCourseEndDate);
             courseItemView4 = itemView.findViewById(R.id.textViewCourseStatus);
-            courseItemView5 = itemView.findViewById(R.id.textViewCourseNote);
+            //courseItemView5 = itemView.findViewById(R.id.textViewCourseNote);
             courseInstructorItem = itemView.findViewById(R.id.courseInstructorName);
             courseItemView6 = itemView.findViewById(R.id.assignedInstructor);
             courseItemView7 = itemView.findViewById(R.id.courseInstructorEmail);
@@ -104,24 +104,24 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             String instructorPhone = current.getCourseInstructorNumber();
             String assignedInstructor = current.getCourseInstructorName();
             holder.courseItemView.setText(name);
-            holder.courseItemView2.setText(startDate);
-            holder.courseItemView3.setText(endDate);
+            //holder.courseItemView2.setText(startDate);
+            //holder.courseItemView3.setText(endDate);
             holder.courseItemView4.setText(status);
-            holder.courseItemView5.setText(note);
-            holder.courseItemView6.setText(assignedInstructor);
-            holder.courseItemView7.setText(instructorEmail);
-            holder.courseItemView8.setText(instructorPhone);
+            //holder.courseItemView5.setText(note);
+            //holder.courseItemView6.setText(assignedInstructor);
+            //holder.courseItemView7.setText(instructorEmail);
+            //holder.courseItemView8.setText(instructorPhone);
         }
         else {
             holder.courseItemView.setText("No Course Name");
-            holder.courseItemView2.setText("No Date");
-            holder.courseItemView3.setText("No Date");
+            //holder.courseItemView2.setText("No Date");
+            //holder.courseItemView3.setText("No Date");
             holder.courseItemView4.setText("No Status");
-            holder.courseItemView5.setText("Empty Note");
+            //holder.courseItemView5.setText("Empty Note");
             //holder.courseInstructorItem.setText("Empty Teacher");
-            holder.courseItemView6.setText("No assignment");
-            holder.courseItemView7.setText("No Email");
-            holder.courseItemView8.setText("No Phone");
+            //holder.courseItemView6.setText("No assignment");
+            //holder.courseItemView7.setText("No Email");
+            //holder.courseItemView8.setText("No Phone");
         }
 
     }

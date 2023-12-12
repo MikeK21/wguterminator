@@ -73,10 +73,10 @@ public class CourseDetails extends AppCompatActivity {
         editStartDate.setText(sdf.format(new Date()));
         editEndDate = findViewById(R.id.courseEndDate);
         editEndDate.setText(sdf.format(new Date()));
-        editAssignedInstructor.findViewById(R.id.assignedInstructor);
+        //editAssignedInstructor.findViewById(R.id.assignedInstructor);
         //editInstructorName.setText(getIntent().getStringExtra("instructorName"));
-        editInstructorEmail.findViewById(R.id.courseInstructorEmail);
-        editInstructorPhone.findViewById(R.id.courseInstructorPhone);
+        //editInstructorEmail.findViewById(R.id.courseInstructorEmail);
+        //editInstructorPhone.findViewById(R.id.courseInstructorPhone);
         courseId = getIntent().getIntExtra("courseId", -1);
         termId = getIntent().getIntExtra("termId", -1);
         name = getIntent().getStringExtra("name");
