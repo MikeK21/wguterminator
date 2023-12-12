@@ -63,8 +63,10 @@ public class CourseDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_details);
         editName = findViewById(R.id.courseName);
-        editNotes = findViewById(R.id.courseNotez);
-        editAssignedInstructor = findViewById(R.id.assignedInstructor);
+        editNotes = findViewById(R.id.courseNotes);
+       editAssignedInstructor = findViewById(R.id.assignedInstructor);
+       editInstructorEmail = findViewById(R.id.courseInstructorEmail);
+       editInstructorPhone = findViewById(R.id.courseInstructorPhone);
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         editStartDate = findViewById(R.id.courseStartDate);
@@ -73,10 +75,8 @@ public class CourseDetails extends AppCompatActivity {
         editEndDate.setText(sdf.format(new Date()));
         editAssignedInstructor.findViewById(R.id.assignedInstructor);
         //editInstructorName.setText(getIntent().getStringExtra("instructorName"));
-        /*
         editInstructorEmail.findViewById(R.id.courseInstructorEmail);
         editInstructorPhone.findViewById(R.id.courseInstructorPhone);
-        */
         courseId = getIntent().getIntExtra("courseId", -1);
         termId = getIntent().getIntExtra("termId", -1);
         name = getIntent().getStringExtra("name");
@@ -95,10 +95,8 @@ public class CourseDetails extends AppCompatActivity {
         editStartDate.setText(stringStartDate);
         editEndDate.setText(stringEndDate);
         editAssignedInstructor.setText(instructorName);
-        /*
         editInstructorEmail.setText(instructorEmail);
         editInstructorPhone.setText(instructorPhone);
-         */
         repository = new Repository(getApplication());
 
         ArrayList<CourseStatus> courseStatusList = new ArrayList<>();

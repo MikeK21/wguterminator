@@ -30,6 +30,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         private final TextView courseItemView5;
         private final TextView courseInstructorItem;
         private final TextView courseItemView6;
+        private final TextView courseItemView7;
+        private final TextView courseItemView8;
         private CourseViewHolder(View itemView) {
             super(itemView);
             courseItemView = itemView.findViewById(R.id.textView2);
@@ -39,6 +41,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             courseItemView5 = itemView.findViewById(R.id.textViewCourseNote);
             courseInstructorItem = itemView.findViewById(R.id.courseInstructorName);
             courseItemView6 = itemView.findViewById(R.id.assignedInstructor);
+            courseItemView7 = itemView.findViewById(R.id.courseInstructorEmail);
+            courseItemView8 = itemView.findViewById(R.id.courseInstructorPhone);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -105,6 +109,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             holder.courseItemView4.setText(status);
             holder.courseItemView5.setText(note);
             holder.courseItemView6.setText(assignedInstructor);
+            holder.courseItemView7.setText(instructorEmail);
+            holder.courseItemView8.setText(instructorPhone);
         }
         else {
             holder.courseItemView.setText("No Course Name");
@@ -112,8 +118,10 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             holder.courseItemView3.setText("No Date");
             holder.courseItemView4.setText("No Status");
             holder.courseItemView5.setText("Empty Note");
-            holder.courseInstructorItem.setText("Empty Teacher");
+            //holder.courseInstructorItem.setText("Empty Teacher");
             holder.courseItemView6.setText("No assignment");
+            holder.courseItemView7.setText("No Email");
+            holder.courseItemView8.setText("No Phone");
         }
 
     }

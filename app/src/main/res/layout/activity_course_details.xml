@@ -97,7 +97,7 @@
                     android:text="Course Notes" />
 
                 <EditText
-                    android:id="@+id/courseNotez"
+                    android:id="@+id/courseNotes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
