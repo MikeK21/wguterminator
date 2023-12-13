@@ -125,13 +125,30 @@ public class CourseDetails extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                CourseStatus courseStatus = CourseStatus.unknown;
+                if (status != null) {
+                    switch (status) {
+                        case "in_progress":
+                            courseStatus = CourseStatus.in_progress;
+                            break;
+                        case "completed":
+                            courseStatus = CourseStatus.completed;
+                            break;
+                        case "dropped":
+                            courseStatus = CourseStatus.dropped;
+                            break;
+                        case "plan_to_take":
+                            courseStatus = CourseStatus.plan_to_take;
+                            break;
+                    }
+                }
                 if (courseId == -1) {
-                    course = new Course(0,0, editName.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString(), CourseStatus.in_progress,
+                    course = new Course(0,0, editName.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString(), courseStatus,
                             editAssignedInstructor.getText().toString(), editInstructorPhone.getText().toString(),editInstructorEmail.getText().toString(), editNotes.getText().toString());
                     repository.insert(course);
                 }
                 else {
-                    course = new Course(courseId,termId, editName.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString(),CourseStatus.in_progress,
+                    course = new Course(courseId,termId, editName.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString(),courseStatus,
                             editAssignedInstructor.getText().toString(), editInstructorPhone.getText().toString(),editInstructorEmail.getText().toString(), editNotes.getText().toString());
                     repository.update(course);
                 }
