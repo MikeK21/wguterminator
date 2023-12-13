@@ -12,10 +12,7 @@ import android.widget.EditText;
 import com.example.wguterminator.Database.Repository;
 import com.example.wguterminator.Entities.Assessment;
 import com.example.wguterminator.Entities.AssessmentType;
-import com.example.wguterminator.Entities.Course;
-import com.example.wguterminator.Entities.CourseStatus;
 import com.example.wguterminator.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class AssessmentDetails extends AppCompatActivity {
 
