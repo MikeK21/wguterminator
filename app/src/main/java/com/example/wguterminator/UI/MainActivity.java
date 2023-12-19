@@ -45,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
                 repository.insert(user);
                 Term term = new Term(0, "May 2023", "05-01-2023", "11-01-2023");
                 repository.insert(term);
-                Course course2 = new Course(2,1,"Calculus", "07/01/23", "11/01/23", CourseStatus.in_progress, "Josh Harris", "301-111-5555","riveraera@commanders.com", "coach");
+                Course course2 = new Course(0,1,"Calculus", "07/01/23", "11/01/23", CourseStatus.in_progress, "Josh Harris", "301-111-5555","riveraera@commanders.com", "coach");
                 repository.insert(course2);
-                Assessment assessment = new Assessment(0, "Chesapeake Critters", "05/01/2023", AssessmentType.performance);
+                Assessment assessment = new Assessment(0, 1,"Chesapeake Critters", "05/01/2023", AssessmentType.performance);
                 repository.insert(assessment);
                 return true;
         }

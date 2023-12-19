@@ -1,3 +1,3 @@
 package com.example.wguterminator.Entities;
 
-public enum AssessmentType {performance, objective, unknown}
+public enum AssessmentType {performance, objective}

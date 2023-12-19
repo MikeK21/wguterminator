@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.wguterminator.Database.Repository;
+import com.example.wguterminator.Entities.Assessment;
 import com.example.wguterminator.Entities.Course;
 import com.example.wguterminator.Entities.CourseStatus;
 import com.example.wguterminator.R;
@@ -55,8 +56,6 @@ public class CourseDetails extends AppCompatActivity {
     final Calendar myCalendarStart = Calendar.getInstance();
     final Calendar myCalendarEnd = Calendar.getInstance();
     String name;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +98,12 @@ public class CourseDetails extends AppCompatActivity {
         editInstructorPhone.setText(instructorPhone);
         repository = new Repository(getApplication());
 
+        RecyclerView recyclerView = findViewById(R.id.assessrecyclerview);
+        final AssessmentAdapter assessmentAdapter = new AssessmentAdapter(this);
+        recyclerView.setAdapter(assessmentAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
         ArrayList<CourseStatus> courseStatusList = new ArrayList<>();
 
         ArrayAdapter<CourseStatus> courseStatusArrayAdapter = new ArrayAdapter<CourseStatus>(this,
@@ -121,11 +126,12 @@ public class CourseDetails extends AppCompatActivity {
         for (Course c : repository.getmAllCourses()) {
             if (c.getCourseId() == courseId) filteredCourses.add(c);
         }
+
         Button button = findViewById(R.id.saveCourse);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CourseStatus courseStatus = CourseStatus.unknown;
+                CourseStatus courseStatus = CourseStatus.plan_to_take;
                 if (status != null) {
                     switch (status) {
                         case "in_progress":
@@ -136,9 +142,6 @@ public class CourseDetails extends AppCompatActivity {
                             break;
                         case "dropped":
                             courseStatus = CourseStatus.dropped;
-                            break;
-                        case "plan_to_take":
-                            courseStatus = CourseStatus.plan_to_take;
                             break;
                     }
                 }
@@ -227,9 +230,6 @@ public class CourseDetails extends AppCompatActivity {
             }
 
         };
-
-
-
     }
 
     private void updateLabelStart() {
@@ -245,4 +245,25 @@ public class CourseDetails extends AppCompatActivity {
 
         editEndDate.setText(sdf.format(myCalendarEnd.getTime()));
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        RecyclerView recyclerView = findViewById(R.id.assessrecyclerview);
+        final AssessmentAdapter assessmentAdapter2 = new AssessmentAdapter(this);
+        recyclerView.setAdapter(assessmentAdapter2);
+        recyclerView.setClickable(false);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        List<Assessment> filteredAssess2 = new ArrayList<>();
+        for (Assessment a : repository.getmAllAssessments()) {
+            if (a.getCourseId() != 0 && a.getCourseId() == courseId) {
+                filteredAssess2.add(a);
+            }
+            else if (a.getAssessmentId() == courseId) {
+                filteredAssess2.add(a);
+            }
+        }
+        assessmentAdapter2.setAssessments(filteredAssess2);
+    }
+
 }

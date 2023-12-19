@@ -2,11 +2,12 @@ package com.example.wguterminator.Entities;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
+// Add course id to this model
 @Entity(tableName = "assessments")
 public class Assessment {
     @PrimaryKey(autoGenerate = true)
     private int assessmentId;
+    private int courseId;
     private String assessmentName;
     private String assessmentEndDate;
     private AssessmentType assessmentType;
@@ -19,9 +20,9 @@ public class Assessment {
     public void setAssessmentType(AssessmentType assessmentType) {
         this.assessmentType = assessmentType;
     }
-
-    public Assessment(int assessmentId, String assessmentName, String assessmentEndDate, AssessmentType assessmentType) {
+    public Assessment(int assessmentId, int courseId, String assessmentName, String assessmentEndDate, AssessmentType assessmentType) {
         this.assessmentId = assessmentId;
+        this.courseId = courseId;
         this.assessmentName = assessmentName;
         this.assessmentEndDate = assessmentEndDate;
         this.assessmentType = assessmentType;
@@ -52,5 +53,13 @@ public class Assessment {
 
     public void setAssessmentEndDate(String assessmentEndDate) {
         this.assessmentEndDate = assessmentEndDate;
+    }
+
+    public int getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
     }
 }
