@@ -136,6 +136,7 @@ public class TermDetails extends AppCompatActivity {
             }
         });
 
+        /*
         FloatingActionButton fab2 = findViewById(R.id.floatingActionButtonCourses);
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,6 +146,8 @@ public class TermDetails extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+         */
 
         editDate.setOnClickListener(new View.OnClickListener() {
 
