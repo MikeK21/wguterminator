@@ -30,10 +30,7 @@ public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.As
         private AssessmentViewHolder(View itemView) {
             super(itemView);
             assessItemView = itemView.findViewById(R.id.assessName);
-            //courseItemView2 = itemView.findViewById(R.id.textViewCourseStartDate);
-            //courseItemView3 = itemView.findViewById(R.id.textViewCourseEndDate);
             assessItemView2 = itemView.findViewById(R.id.assessType);
-            //courseItemView5 = itemView.findViewById(R.id.textViewCourseNote);
             //assessItemView3 = itemView.findViewById(R.id.assessEndDate);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

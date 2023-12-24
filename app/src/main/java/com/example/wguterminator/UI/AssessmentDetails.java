@@ -2,13 +2,16 @@ package com.example.wguterminator.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 
 import com.example.wguterminator.Database.Repository;
@@ -48,15 +51,45 @@ public class AssessmentDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assessment_details);
-        editName.findViewById(R.id.assessName);
-        editEndDate.findViewById(R.id.assessEndDate);
-        editAssessmentType.findViewById(R.id.assessType);
         // Need to fill this out to match in AssessmentAdapter
         assessId = getIntent().getIntExtra("assessId",-1);
         courseId = getIntent().getIntExtra("courseId", -1);
         name = getIntent().getStringExtra("name");
         stringEndDate = getIntent().getStringExtra("endDate");
         assessmentTypeString = getIntent().getStringExtra("type");
+
+        editName.findViewById(R.id.assessNameDetails);
+        //editName.setText("name");
+        editEndDate.findViewById(R.id.assessEndDateDetails);
+        //editEndDate.setText("date");
+        editAssessmentType.findViewById(R.id.assessTypeDetails);
+        //editAssessmentType.setText("type");
+        // Ensure that editName is initialized correctly
+        editName = findViewById(R.id.assessNameDetails);
+
+        // Check if editName is not null before calling setText
+        if (editName != null) {
+            editName.setText(name);
+        } else {
+            // Log an error or handle the situation where editName is null
+            Log.e("AssessmentDetails", "editName is null");
+        }
+
+        // Check if editName is not null before calling setText
+        if (editEndDate != null) {
+            editEndDate.setText(stringEndDate);
+        } else {
+            // Log an error or handle the situation where editName is null
+            Log.e("AssessmentDetails", "editEndDate is null");
+        }
+
+        // Check if editName is not null before calling setText
+        if (editAssessmentType != null) {
+            editAssessmentType.setText(assessmentTypeString);
+        } else {
+            // Log an error or handle the situation where editName is null
+            Log.e("AssessmentDetails", "editAssessmentType is null");
+        }
 
         Button assessListButton = findViewById(R.id.seeAssess);
         assessListButton.setOnClickListener(new View.OnClickListener() {
@@ -67,12 +100,6 @@ public class AssessmentDetails extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        // Added this for end of part 3 videos
-        List<Course> filteredCourses = new ArrayList<>();
-        for (Course c : repository.getmAllCourses()) {
-            if (c.getCourseId() == courseId) filteredCourses.add(c);
-        }
 
         Button saveButton = findViewById(R.id.saveAssess);
         saveButton.setOnClickListener(new View.OnClickListener() {

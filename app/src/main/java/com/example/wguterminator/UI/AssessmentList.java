@@ -42,11 +42,11 @@ public class AssessmentList extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        List<Course> allCourses = repository.getmAllCourses();
-        RecyclerView recyclerView = findViewById(R.id.courserecyclerview);
-        final CourseAdapter courseAdapter = new CourseAdapter(this);
-        recyclerView.setAdapter(courseAdapter);
+        List<Assessment> allAssess = repository.getmAllAssessments();
+        RecyclerView recyclerView = findViewById(R.id.assessrecyclerview);
+        final AssessmentAdapter assessmentAdapter = new AssessmentAdapter(this);
+        recyclerView.setAdapter(assessmentAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        courseAdapter.setCourses(allCourses);
+        assessmentAdapter.setAssessments(allAssess);
     }
 }
