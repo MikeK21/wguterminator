@@ -50,22 +50,19 @@ public class AssessmentDetails extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("Debug", "About to set content view");
         setContentView(R.layout.activity_assessment_details);
+        Log.d("Debug", "Content view set successfully");
         // Need to fill this out to match in AssessmentAdapter
         assessId = getIntent().getIntExtra("assessId",-1);
         courseId = getIntent().getIntExtra("courseId", -1);
         name = getIntent().getStringExtra("name");
         stringEndDate = getIntent().getStringExtra("endDate");
-        assessmentTypeString = getIntent().getStringExtra("type");
+        assessmentTypeString = getIntent().getStringExtra("assessType");
 
-        editName.findViewById(R.id.assessNameDetails);
-        //editName.setText("name");
-        editEndDate.findViewById(R.id.assessEndDateDetails);
-        //editEndDate.setText("date");
-        editAssessmentType.findViewById(R.id.assessTypeDetails);
-        //editAssessmentType.setText("type");
-        // Ensure that editName is initialized correctly
         editName = findViewById(R.id.assessNameDetails);
+        editEndDate = findViewById(R.id.assessEndDateDetails);
+        editAssessmentType = findViewById(R.id.assessTypeDetails);
 
         // Check if editName is not null before calling setText
         if (editName != null) {
