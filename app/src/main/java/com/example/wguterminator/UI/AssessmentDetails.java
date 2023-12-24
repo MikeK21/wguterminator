@@ -63,6 +63,7 @@ public class AssessmentDetails extends AppCompatActivity {
         editName = findViewById(R.id.assessNameDetails);
         editEndDate = findViewById(R.id.assessEndDateDetails);
         editAssessmentType = findViewById(R.id.assessTypeDetails);
+        repository = new Repository(getApplication());
 
         // Check if editName is not null before calling setText
         if (editName != null) {
