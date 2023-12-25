@@ -15,7 +15,7 @@ import androidx.core.app.NotificationCompat;
 import com.example.wguterminator.R;
 
 public class MyReceiver extends BroadcastReceiver {
-    String channel_id = "1";
+    String channel_id = "Channel Id: 1";
     static int notificationID;
 
     @Override
@@ -25,7 +25,7 @@ public class MyReceiver extends BroadcastReceiver {
         Notification n = new NotificationCompat.Builder(context, channel_id)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentText(intent.getStringExtra("key"))
-                .setContentTitle("NotifcationTest").build();
+                .setContentTitle("Test Notification").build();
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         notificationManager.notify(notificationID++, n);
         // TODO: This method is called when the BroadcastReceiver is receiving
