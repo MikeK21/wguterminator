@@ -45,6 +45,7 @@
                     android:id="@+id/termDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:inputType="none"
                     android:hint="09/01/23"/>
             </LinearLayout>
             <LinearLayout
@@ -59,6 +60,7 @@
                     android:id="@+id/termEndDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:inputType="none"
                     android:hint="03/01/24"/>
             </LinearLayout>
 

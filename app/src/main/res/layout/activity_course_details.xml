@@ -60,6 +60,7 @@
                         android:id="@+id/courseStartDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:inputType="none"
                         android:hint="Start Date"/>
 
                 <LinearLayout
@@ -81,6 +82,7 @@
                             android:id="@+id/courseEndDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:inputType="none"
                             android:hint="End Date" />
                     </LinearLayout>
                 </LinearLayout>
