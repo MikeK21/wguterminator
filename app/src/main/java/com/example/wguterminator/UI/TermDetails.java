@@ -4,18 +4,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
-import com.example.wguterminator.DAO.TermDAO;
 import com.example.wguterminator.Database.Repository;
 import com.example.wguterminator.Entities.Course;
 import com.example.wguterminator.Entities.Term;
@@ -29,7 +32,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import android.content.Context;
 
 // cmsoftware@wgu.edu
 public class TermDetails extends AppCompatActivity {
@@ -257,8 +259,6 @@ public class TermDetails extends AppCompatActivity {
         }
 
         //pick up at ProductDetails.java line 101 from dolphinlive github
-
-
 
 
     }
