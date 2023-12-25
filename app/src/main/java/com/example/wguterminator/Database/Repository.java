@@ -27,6 +27,7 @@ public class Repository {
     private List<Course> mAllCourses;
     private List<Term> mAllTerms;
     private List<User> mAllUsers;
+    private List<Course> mAllAssocCourses;
 
     private static int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
@@ -50,6 +51,18 @@ public class Repository {
             e.printStackTrace();
         }
         return mAllTerms;
+    }
+
+    public List<Course> getmAllCourseWithAssocTerm(Term term) {
+        databaseExecutor.execute(() ->{
+            mAllAssocCourses = mCourseDAO.getAllAssociatedCourses(term.getTermId());
+        });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return mAllAssocCourses;
     }
 
     public void insert(Term term) {
@@ -86,7 +99,7 @@ public class Repository {
            }
        }
        if (flagNoDelete) {
-           Log.i("INFO","There was a course");
+           Log.i("INFO","There was a course - cannot delete");
        }
        if (!flagNoDelete) {
            databaseExecutor.execute(() -> {

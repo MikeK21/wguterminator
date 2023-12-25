@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,9 +53,9 @@ public class TermDetails extends AppCompatActivity {
     final Calendar myCalendarStart = Calendar.getInstance();
     final Calendar myCalendarEnd = Calendar.getInstance();
 
-    private void showAlertDialog(String message) {
+    private void showAlertDialog(String message, String title) {
         AlertDialog dialog =  new AlertDialog.Builder(TermDetails.this)
-                .setTitle("Course ID Error")
+                .setTitle(title)
                 .setMessage(message)
                 .setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -117,11 +118,30 @@ public class TermDetails extends AppCompatActivity {
                 if (termId != 0) {
                     for (Term term : repository.getmAllTerms()) {
                         if (term.getTermId() == termId) {
+                            List<Course> assocCourses = repository.getmAllCourseWithAssocTerm(term);
+                            if (!assocCourses.isEmpty()) {
+                                Log.i("INFO","Unable to delete Term - in use for Course: "
+                                        + assocCourses.get(0).getCourseName());
+                                showAlertDialog("Cannot delete a term where that a course is assigned to!", "Course Conflict Error");
+                                break;
+                            }
+                            /*
+                            for (Course course : repository.getmAllCourses() ) {
+                                if (course.getTermId() == term.getTermId()) {
+                                    Log.i("INFO","Unable to delete Term - in use for Course: "
+                                            + course.getName());
+                                    showAlertDialog("Cannot delete a term where that a course is assigned to!");
+                                    break;
+                                }
+                            }
+                             */
+                            showAlertDialog("Deleting Term: " +term.getTermName(), "Successful Delete");
                             repository.delete(term,repository.getmAllCourses());
                         }
+                        else {
+                            showAlertDialog("No term found - Did you select it from Term List?", "No Term Found");
+                        }
                     }
-                } else {
-                    showAlertDialog("Cannot delete a term where that a course is assigned to!");
                 }
             }
         });

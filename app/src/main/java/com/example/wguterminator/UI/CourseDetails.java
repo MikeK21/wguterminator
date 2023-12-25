@@ -278,6 +278,11 @@ public class CourseDetails extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
+        String myFormat = "MM/dd/yy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        Date myDate = null;
+
+
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();
@@ -293,24 +298,32 @@ public class CourseDetails extends AppCompatActivity {
                 return true;
             case R.id.notifyStartOption:
                 String dateFromScreen = editStartDate.getText().toString();
-                String myFormat = "MM/dd/yy"; //In which you need put here
-                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-                Date myDate = null;
                 try {
                     myDate = sdf.parse(dateFromScreen);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                Long trigger = myDate.getTime();
-                Intent intent = new Intent(CourseDetails.this, MyReceiver.class);
-                intent.putExtra("key", dateFromScreen + " should trigger");
-                PendingIntent sender = PendingIntent.getBroadcast(CourseDetails.this, ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
-                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+                Long startTrigger = myDate.getTime();
+                Intent startIntent = new Intent(CourseDetails.this, MyReceiver.class);
+                startIntent.putExtra("key", dateFromScreen + " should trigger");
+                PendingIntent startSender = PendingIntent.getBroadcast(CourseDetails.this, ++MainActivity.numAlert, startIntent, PendingIntent.FLAG_IMMUTABLE);
+                AlarmManager startAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                startAlarmManager.set(AlarmManager.RTC_WAKEUP, startTrigger, startSender);
                 return true;
             case R.id.notifyEndOption:
-                return true;
-        }
+                String endDateFromScreen = editEndDate.getText().toString();
+                try {
+                    myDate = sdf.parse(endDateFromScreen);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Long endTrigger = myDate.getTime();
+                Intent endIntent = new Intent(CourseDetails.this, MyReceiver.class);
+                endIntent.putExtra("key", endDateFromScreen + " should trigger");
+                PendingIntent endSender = PendingIntent.getBroadcast(CourseDetails.this, ++MainActivity.numAlert, endIntent, PendingIntent.FLAG_IMMUTABLE);
+                AlarmManager endAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                endAlarmManager.set(AlarmManager.RTC_WAKEUP, endTrigger, endSender);
+                return true;        }
         return super.onOptionsItemSelected(item);
     }
 
