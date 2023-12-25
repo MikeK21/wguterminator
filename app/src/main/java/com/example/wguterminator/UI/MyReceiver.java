@@ -15,7 +15,7 @@ import androidx.core.app.NotificationCompat;
 import com.example.wguterminator.R;
 
 public class MyReceiver extends BroadcastReceiver {
-    String channel_id = "test";
+    String channel_id = "1";
     static int notificationID;
 
     @Override
