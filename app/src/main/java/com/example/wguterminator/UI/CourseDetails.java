@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -30,6 +31,7 @@ import com.example.wguterminator.R;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -47,6 +49,7 @@ public class CourseDetails extends AppCompatActivity {
     EditText editInstructorName;
     EditText editInstructorEmail;
     EditText editInstructorPhone;
+    CourseStatus selectedStatus;
     int courseId;
     int termId;
     Course course;
@@ -71,9 +74,10 @@ public class CourseDetails extends AppCompatActivity {
         editName = findViewById(R.id.courseName);
         editTerm = findViewById(R.id.assocTerm);
         editNotes = findViewById(R.id.courseNotes);
-       editAssignedInstructor = findViewById(R.id.assignedInstructor);
-       editInstructorEmail = findViewById(R.id.courseInstructorEmail);
-       editInstructorPhone = findViewById(R.id.courseInstructorPhone);
+        //editStatus = findViewById(R.id.courseStatus);
+        editAssignedInstructor = findViewById(R.id.assignedInstructor);
+        editInstructorEmail = findViewById(R.id.courseInstructorEmail);
+        editInstructorPhone = findViewById(R.id.courseInstructorPhone);
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         editStartDate = findViewById(R.id.courseStartDate);
@@ -115,16 +119,37 @@ public class CourseDetails extends AppCompatActivity {
         recyclerView.setAdapter(assessmentAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Status Spinner
-        /*
-        ArrayList<CourseStatus> courseStatusList = new ArrayList<>();
 
-        ArrayAdapter<CourseStatus> courseStatusArrayAdapter = new ArrayAdapter<CourseStatus>(this,
-                android.R.layout.simple_spinner_item,courseStatusList);
+        ArrayList<Course> courseList = new ArrayList<>();
+        ArrayList<CourseStatus> courseStatusList = new ArrayList<>();
+        courseList.addAll(repository.getmAllCourses());
+        for (CourseStatus courseStatus: CourseStatus.values()) {
+            courseStatusList.add(courseStatus);
+        }
+
+        ArrayAdapter<CourseStatus> courseStatusArrayAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item,CourseStatus.values());
         Spinner spinner = findViewById(R.id.statusSpinner);
         spinner.setAdapter(courseStatusArrayAdapter);
-         */
-        Button fab = findViewById(R.id.seeCourses);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //editStatus.setText(courseStatusArrayAdapter.getItem(i).toString());
+                selectedStatus = (CourseStatus) spinner.getSelectedItem();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                //editStatus.setText("Nothing selected");
+                for (CourseStatus courseStatus : CourseStatus.values()) {
+                    if (courseStatus.equals(status)) {
+                        selectedStatus = courseStatus;
+                    }
+                }
+            }
+        });
+
+            Button fab = findViewById(R.id.seeCourses);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,6 +169,7 @@ public class CourseDetails extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /*
                 CourseStatus courseStatus = CourseStatus.plan_to_take;
                 if (status != null) {
                     switch (status) {
@@ -158,13 +184,15 @@ public class CourseDetails extends AppCompatActivity {
                             break;
                     }
                 }
+
+                 */
                 if (courseId == -1) {
-                    course = new Course(0,0, editName.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString(), courseStatus,
+                    course = new Course(0,0, editName.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString(), selectedStatus,
                             editAssignedInstructor.getText().toString(), editInstructorPhone.getText().toString(),editInstructorEmail.getText().toString(), editNotes.getText().toString());
                     repository.insert(course);
                 }
                 else {
-                    course = new Course(courseId,termId, editName.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString(),courseStatus,
+                    course = new Course(courseId,termId, editName.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString(),selectedStatus,
                             editAssignedInstructor.getText().toString(), editInstructorPhone.getText().toString(),editInstructorEmail.getText().toString(), editNotes.getText().toString());
                     repository.update(course);
                 }
