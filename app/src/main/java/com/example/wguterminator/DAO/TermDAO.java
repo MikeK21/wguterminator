@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.example.wguterminator.Entities.Course;
 import com.example.wguterminator.Entities.Term;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface TermDAO {
     void delete(Term term);
     @Query("SELECT * FROM terms ORDER BY termId ASC")
     List<Term> getAllTerms();
+    @Query("SELECT * FROM terms WHERE termId = :termId")
+    List<Term> getTermNameById(int termId);
 }

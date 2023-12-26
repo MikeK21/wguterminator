@@ -28,6 +28,10 @@ public class Repository {
     private List<Term> mAllTerms;
     private List<User> mAllUsers;
     private List<Course> mAllAssocCourses;
+    private List<Course> mAllAssocCoursesById;
+    private List<Term> mTermNameById;
+
+
 
     private static int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
@@ -53,6 +57,18 @@ public class Repository {
         return mAllTerms;
     }
 
+    public List<Term> getmTermByTermId(int termId) {
+        databaseExecutor.execute(() ->{
+            mTermNameById = mTermDAO.getTermNameById(termId);
+        });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return mTermNameById;
+    }
+
     public List<Course> getmAllCourseWithAssocTerm(Term term) {
         databaseExecutor.execute(() ->{
             mAllAssocCourses = mCourseDAO.getAllAssociatedCourses(term.getTermId());
@@ -63,6 +79,18 @@ public class Repository {
             e.printStackTrace();
         }
         return mAllAssocCourses;
+    }
+
+    public List<Course> getmAllCourseWithAssocTermById(int termId) {
+        databaseExecutor.execute(() ->{
+            mAllAssocCoursesById = mCourseDAO.getAllAssociatedCourses(termId);
+        });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return mAllAssocCoursesById;
     }
 
     public void insert(Term term) {

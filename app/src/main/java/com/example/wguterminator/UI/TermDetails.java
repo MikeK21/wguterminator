@@ -24,6 +24,7 @@ import com.example.wguterminator.Database.Repository;
 import com.example.wguterminator.Entities.Course;
 import com.example.wguterminator.Entities.Term;
 import com.example.wguterminator.R;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.ParseException;
@@ -148,7 +149,7 @@ public class TermDetails extends AppCompatActivity {
 
 
 
-        FloatingActionButton fab = findViewById(R.id.floatingActionButton3);
+        ExtendedFloatingActionButton fab = findViewById(R.id.floatingActionButton3);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

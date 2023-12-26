@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.wguterminator.Database.Repository;
 import com.example.wguterminator.Entities.Term;
 import com.example.wguterminator.R;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class TermList extends AppCompatActivity {
         repository = new Repository(getApplication());
         final CourseAdapter courseAdapter = new CourseAdapter(this);
         List<Term> allTerms = repository.getmAllTerms();
-        FloatingActionButton fab = findViewById(R.id.floatingActionButton);
+        ExtendedFloatingActionButton fab = findViewById(R.id.floatingActionButton);
         termAdapter.setTerms(allTerms);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

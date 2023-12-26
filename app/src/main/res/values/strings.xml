@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">WGU Terminator</string>
+    <string name="term_details_fab">Select a Term</string>
+    <string name="term_list_fab">Back to Term Details</string>
+    <string name="course_details_fab">Select a Course</string>
+    <string name="course_list_fab">Back to Course Details</string>
+    <string name="assess_list_fab">Back to Assessment Details</string>
     <string name="share">Share</string>
     <string name="notify_start">Notify Start</string>
     <string name="notify_end">Notify End</string>

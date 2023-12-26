@@ -11,6 +11,7 @@ import android.view.View;
 import com.example.wguterminator.Database.Repository;
 import com.example.wguterminator.Entities.Course;
 import com.example.wguterminator.R;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class  CourseList extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         repository = new Repository(getApplication());
         List<Course> allCourses = repository.getmAllCourses();
-        FloatingActionButton fab = findViewById(R.id.floatingActionButton);
+        ExtendedFloatingActionButton fab = findViewById(R.id.floatingActionButton);
         courseAdapter.setCourses(allCourses);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

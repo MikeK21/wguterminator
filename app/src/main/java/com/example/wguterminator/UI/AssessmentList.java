@@ -12,6 +12,7 @@ import com.example.wguterminator.Database.Repository;
 import com.example.wguterminator.Entities.Assessment;
 import com.example.wguterminator.Entities.Course;
 import com.example.wguterminator.R;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class AssessmentList extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         repository = new Repository(getApplication());
         List<Assessment> allAssessments = repository.getmAllAssessments();
-        FloatingActionButton fab = findViewById(R.id.assessListFAB);
+        ExtendedFloatingActionButton fab = findViewById(R.id.assessListFAB);
         assessmentAdapter.setAssessments(allAssessments);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

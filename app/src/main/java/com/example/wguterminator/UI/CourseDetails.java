@@ -24,8 +24,8 @@ import com.example.wguterminator.Database.Repository;
 import com.example.wguterminator.Entities.Assessment;
 import com.example.wguterminator.Entities.Course;
 import com.example.wguterminator.Entities.CourseStatus;
+import com.example.wguterminator.Entities.Term;
 import com.example.wguterminator.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,6 +38,7 @@ import java.util.Locale;
 public class CourseDetails extends AppCompatActivity {
 
     EditText editName;
+    EditText editTerm;
     EditText editStartDate;
     EditText editEndDate;
     EditText editNotes;
@@ -68,6 +69,7 @@ public class CourseDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_details);
         editName = findViewById(R.id.courseName);
+        editTerm = findViewById(R.id.assocTerm);
         editNotes = findViewById(R.id.courseNotes);
        editAssignedInstructor = findViewById(R.id.assignedInstructor);
        editInstructorEmail = findViewById(R.id.courseInstructorEmail);
@@ -103,21 +105,26 @@ public class CourseDetails extends AppCompatActivity {
         editInstructorEmail.setText(instructorEmail);
         editInstructorPhone.setText(instructorPhone);
         repository = new Repository(getApplication());
+        //List<Course> assocTermId = repository.getmAllCourseWithAssocTermById(termId);
+        String assocTermName = repository.getmTermByTermId(termId).get(0).getTermName();
+        editTerm.setText(assocTermName);
+
 
         RecyclerView recyclerView = findViewById(R.id.assessrecyclerview);
         final AssessmentAdapter assessmentAdapter = new AssessmentAdapter(this);
         recyclerView.setAdapter(assessmentAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
+        // Status Spinner
+        /*
         ArrayList<CourseStatus> courseStatusList = new ArrayList<>();
 
         ArrayAdapter<CourseStatus> courseStatusArrayAdapter = new ArrayAdapter<CourseStatus>(this,
                 android.R.layout.simple_spinner_item,courseStatusList);
         Spinner spinner = findViewById(R.id.statusSpinner);
         spinner.setAdapter(courseStatusArrayAdapter);
-
-        FloatingActionButton fab = findViewById(R.id.floatingActionButton2);
+         */
+        Button fab = findViewById(R.id.seeCourses);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
