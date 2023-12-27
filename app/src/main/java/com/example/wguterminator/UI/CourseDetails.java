@@ -435,7 +435,6 @@ public class CourseDetails extends AppCompatActivity {
         editName.setText("");
         editEndDate.setText("");
         editStartDate.setText("");
-        editInstructorName.setText("");
         editAssignedInstructor.setText("");
         editInstructorEmail.setText("");
         editInstructorPhone.setText("");
