@@ -91,7 +91,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:inputType="none"
-                        android:hint="Start Date"/>
+                        android:hint="select"/>
 
                 <LinearLayout
                     android:layout_width="209dp"
@@ -113,7 +113,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:inputType="none"
-                            android:hint="End Date" />
+                            android:hint="select" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -189,20 +189,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
+                <Button
+                    android:id="@+id/newCourse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New" />
                 <Button
                     android:id="@+id/saveCourse"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Save" />
                 <Button
-                    android:id="@+id/seeCourses"
+                    android:id="@+id/deleteCourse"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/cardview_default_elevation"
-                    android:text="See Courses" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                    android:textColor="@color/design_default_color_error"
+                android:text="Delete" />
+                <Button
+                    android:id="@+id/seeAssessments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="AssessList" />
 
+            </androidx.appcompat.widget.LinearLayoutCompat>
         </LinearLayout>
     </ScrollView>
 

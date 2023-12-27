@@ -98,16 +98,39 @@ public class TermDetails extends AppCompatActivity {
             if (c.getTermId() == termId) filteredCourses.add(c);
         }
         courseAdapter.setCourses(filteredCourses);
+
+        Button newTermFab = findViewById(R.id.newTerm);
+        newTermFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editName.setText("");
+                editDate.setText("");
+                editEndDate.setText("");
+                termId = -1;
+            }
+        });
+
         Button button = findViewById(R.id.saveTerm);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (termId == -1) {
+                if (editName.getText().toString().isEmpty()) {
+                    showAlertDialog("Invalid Term Name", "Try Again");
+                } else if (editDate.getText().toString().isEmpty() || editEndDate.getText().toString().isEmpty()) {
+                    showAlertDialog("Invalid Dates", "Try Again");
+                } else if (!isValidDate(sdf,editDate.getText().toString()) || !isValidDate(sdf, editEndDate.getText().toString())) {
+                    showAlertDialog("Invalid Dates", "Try Again");
+                }
+                else if (termId == -1) {
                     term = new Term(0, editName.getText().toString(), editDate.getText().toString(), editEndDate.getText().toString());
                     repository.insert(term);
+                    showAlertDialog("Successful New Term: " + editName.getText().toString(),"New Term");
+                    refreshScreen(-1);
                 } else {
                     term = new Term(id, editName.getText().toString(), editDate.getText().toString(), editEndDate.getText().toString());
                     repository.update(term);
+                    showAlertDialog("Successful Term Update: " + editName.getText().toString(),"Update Term");
+                    refreshScreen(-1);
                 }
             }
         });
@@ -116,7 +139,7 @@ public class TermDetails extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (termId != 0) {
+                if (termId != -1) {
                     for (Term term : repository.getmAllTerms()) {
                         if (term.getTermId() == termId) {
                             List<Course> assocCourses = repository.getmAllCourseWithAssocTerm(term);
@@ -125,7 +148,7 @@ public class TermDetails extends AppCompatActivity {
                                         + assocCourses.get(0).getCourseName());
                                 showAlertDialog("Cannot delete a term where that a course is assigned to!", "Course Conflict Error");
                                 break;
-                            }
+                            } else {
                             /*
                             for (Course course : repository.getmAllCourses() ) {
                                 if (course.getTermId() == term.getTermId()) {
@@ -136,12 +159,16 @@ public class TermDetails extends AppCompatActivity {
                                 }
                             }
                              */
-                            showAlertDialog("Deleting Term: " +term.getTermName(), "Successful Delete");
-                            repository.delete(term,repository.getmAllCourses());
+                                repository.delete(term, repository.getmAllCourses());
+                                showAlertDialog("Deleting Term: " + term.getTermName(), "Successful Delete");
+                                refreshScreen(-1);
+                            }
                         }
+                        /*
                         else {
                             showAlertDialog("No term found - Did you select it from Term List?", "No Term Found");
                         }
+                         */
                     }
                 }
             }
@@ -155,6 +182,15 @@ public class TermDetails extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(TermDetails.this, TermList.class);
                 intent.putExtra("termId", id);
+                startActivity(intent);
+            }
+        });
+
+        Button courseListfab = findViewById(R.id.seeCourses);
+        courseListfab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TermDetails.this, CourseList.class);
                 startActivity(intent);
             }
         });
@@ -181,7 +217,7 @@ public class TermDetails extends AppCompatActivity {
                 //get value from other screen,but I'm going to hard code it right now
                 String info = editDate.getText().toString();
                 //String endInfo = editEndDate.getText().toString();
-                if (info.equals("")) info = "09/01/23";
+                //if (info.equals("")) info = "09/01/23";
                 //if (endInfo.equals("")) endInfo = "03/01/24";
                 try {
                     myCalendarStart.setTime(sdf.parse(info));
@@ -201,9 +237,8 @@ public class TermDetails extends AppCompatActivity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 Date date;
-                //get value from other screen,but I'm going to hard code it right now
                 String endInfo = editEndDate.getText().toString();
-                if (endInfo.equals("")) endInfo = "03/01/24";
+                //if (endInfo.equals("")) endInfo = "03/01/24";
                 try {
                     myCalendarEnd.setTime(sdf.parse(endInfo));
                 } catch (ParseException e) {
@@ -258,6 +293,23 @@ public class TermDetails extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         editEndDate.setText(sdf.format(myCalendarEnd.getTime()));
+    }
+
+    private void refreshScreen(int termId) {
+        editName.setText("");
+        editDate.setText("");
+        editEndDate.setText("");
+        this.termId = termId;
+    }
+
+    public static boolean isValidDate(SimpleDateFormat sdf, String dateString) {
+
+        try {
+            Date date = sdf.parse(dateString);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
     }
 
     @Override

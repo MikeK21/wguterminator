@@ -19,12 +19,17 @@ app:layout_constraintTop_toTopOf="parent">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <EditText
+        <TextView
             android:id="@+id/assessCourseId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:hint="Course Id" />
+            android:text="Course Id" />
+        <Spinner
+            android:id="@+id/courseIdSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,11 +46,16 @@ app:layout_constraintTop_toTopOf="parent">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <EditText
+        <TextView
             android:id="@+id/assessTypeDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Assessment Type"/>
+            android:text="Assessment Type"/>
+        <Spinner
+            android:id="@+id/typeSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" />
 </LinearLayout>
 
     <LinearLayout
@@ -79,11 +89,16 @@ app:layout_constraintTop_toTopOf="parent">
             android:layout_height="wrap_content"
             android:text="Save" />
         <Button
+            android:id="@+id/deleteAssess"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:textColor="@color/design_default_color_error"/>
+        <Button
             android:id="@+id/seeAssess"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/cardview_default_elevation"
-            android:text="See Assessment List" />
+            android:text="AssessList" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </LinearLayout>
 </ScrollView>

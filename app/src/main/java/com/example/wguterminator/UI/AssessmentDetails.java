@@ -2,7 +2,6 @@ package com.example.wguterminator.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -15,10 +14,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Spinner;
 
 
 import com.example.wguterminator.Database.Repository;
@@ -44,6 +45,8 @@ public class AssessmentDetails extends AppCompatActivity {
     EditText editAssessmentType;
     Assessment assessment;
     Repository repository;
+    AssessmentType selectedType;
+    Integer selectedCourseId;
     int assocAssessments;
     int assessId;
     int courseId;
@@ -71,19 +74,66 @@ public class AssessmentDetails extends AppCompatActivity {
         stringEndDate = getIntent().getStringExtra("endDate");
         assessmentTypeString = getIntent().getStringExtra("assessType");
 
-        editCourse = findViewById(R.id.assessCourseId);
+        //editCourse = findViewById(R.id.assessCourseId);
         editName = findViewById(R.id.assessNameDetails);
         editEndDate = findViewById(R.id.assessEndDateDetails);
-        editAssessmentType = findViewById(R.id.assessTypeDetails);
+        //editAssessmentType = findViewById(R.id.typeSpinner);
         repository = new Repository(getApplication());
 
-        // Check if editCourse is not null before calling setText
-        if (editCourse != null) {
-            editCourse.setText(String.valueOf(courseId));
-        } else {
-            // Log an error or handle the situation where editName is null
-            Log.e("AssessmentDetails", "editCourse is null");
+        assessmentList = repository.getmAllAssessments();
+
+        // Set up course id spinner
+        ArrayList<Course> courseList = new ArrayList<>();
+        ArrayList<Integer> courseIdList = new ArrayList<>();
+        courseList.addAll(repository.getmAllCourses());
+        for (Course course : courseList) {
+            courseIdList.add(course.getCourseId());
         }
+        // Set up assessment type typeSpinner
+        ArrayList<AssessmentType> assessmentTypeList = new ArrayList<>();
+        for (AssessmentType assessmentType: AssessmentType.values()) {
+            assessmentTypeList.add(assessmentType);
+        }
+
+        ArrayAdapter<AssessmentType> assessmentTypeArrayAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item,AssessmentType.values());
+        Spinner typeSpinner = findViewById(R.id.typeSpinner);
+        typeSpinner.setAdapter(assessmentTypeArrayAdapter);
+        typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //editStatus.setText(courseStatusArrayAdapter.getItem(i).toString());
+                selectedType = (AssessmentType) typeSpinner.getSelectedItem();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                //editStatus.setText("Nothing selected");
+                for (AssessmentType type : AssessmentType.values()) {
+                    if (selectedType.equals(type)) {
+                        selectedType = type;
+                    }
+                }
+            }
+        });
+
+        ArrayAdapter<Integer> courseIdArrayAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item,courseIdList);
+        Spinner courseIdSpinner = findViewById(R.id.courseIdSpinner);
+        courseIdSpinner.setAdapter(courseIdArrayAdapter);
+        courseIdSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //editStatus.setText(courseStatusArrayAdapter.getItem(i).toString());
+                selectedCourseId = (Integer) courseIdSpinner.getSelectedItem();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                //editStatus.setText("Nothing selected");
+                selectedCourseId = 0;
+            }
+        });
 
         // Check if editName is not null before calling setText
         if (editName != null) {
@@ -101,22 +151,15 @@ public class AssessmentDetails extends AppCompatActivity {
             Log.e("AssessmentDetails", "editEndDate is null");
         }
 
-        // Check if editName is not null before calling setText
-        if (editAssessmentType != null) {
-            editAssessmentType.setText(assessmentTypeString);
-        } else {
-            // Log an error or handle the situation where editName is null
-            Log.e("AssessmentDetails", "editAssessmentType is null");
-        }
 
         Button newAssessButton = findViewById(R.id.newAssess);
         newAssessButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editCourse.setText("");
+                courseIdSpinner.setSelection(0);
                 editName.setText("");
                 editEndDate.setText("");
-                editAssessmentType.setText("");
+                typeSpinner.setSelection(0);
                 assessId = -1;
             }
         });
@@ -131,20 +174,56 @@ public class AssessmentDetails extends AppCompatActivity {
             }
         });
 
+        Button deleteButton = findViewById(R.id.deleteAssess);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (assessId != -1) {
+                    Assessment deleteAssessment;
+                    for (Assessment assessment : assessmentList) {
+                        if (assessment.getAssessmentId() == assessId) {
+                            deleteAssessment = assessment;
+                            showAlertDialog("Deleting Assessment: " +assessment.getAssessmentName(), "Successful Delete");
+                            repository.delete(deleteAssessment);
+                            refreshScreen(-1);
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+
         Button saveButton = findViewById(R.id.saveAssess);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AssessmentType assessmentType = AssessmentType.objective;
+                int editCourseId = -1;
+                try {
+                    editCourseId = selectedCourseId;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 if (assessmentTypeString != null) {
                     switch (assessmentTypeString) {
                         case "performance":
                             assessmentType = AssessmentType.performance;
                             break;
                     }
+                    if (editName.getText().toString().isEmpty()) {
+                        showAlertDialog("Invalid Assessment Name", "Try Again");
+                    } else if (editCourseId == -1) {
+                        showAlertDialog("Invalid Associated Course", "Try Again");
+                    } else if (assessmentType.toString().isEmpty()) {
+                        showAlertDialog("Invalid Assessment Type", "Try Again");
+                    } else if (editEndDate.getText().toString().isEmpty()) {
+                        showAlertDialog("Invalid Dates", "Try Again");
+                    } else if (!isValidDate(sdf, editEndDate.getText().toString())) {
+                        showAlertDialog("Invalid Dates", "Try Again");
+                    }
                     // Add new assessment
                     if (assessId == -1) {
-                        int editCourseId = Integer.parseInt(editCourse.getText().toString());
+                        editCourseId = selectedCourseId;
                         // need to add associated course id
                         assessment = new Assessment(0, editCourseId,editName.getText().toString(),editEndDate.getText().toString(),assessmentType);
                         //assocAssessments = repository.getmAllAssessForACourse(assessment.getCourseId());
@@ -171,7 +250,7 @@ public class AssessmentDetails extends AppCompatActivity {
                         // Update assessment
                     } else {
                         // need to add associated course id
-                        int editCourseId = Integer.parseInt(editCourse.getText().toString());
+                        editCourseId = selectedCourseId;
 
                         assessment = new Assessment(assessId, editCourseId, editName.getText().toString(),editEndDate.getText().toString(),assessmentType);
                         //assocAssessments = repository.getmAllAssessForACourse(assessment.getCourseId());
@@ -199,7 +278,7 @@ public class AssessmentDetails extends AppCompatActivity {
                 //get value from other screen,but I'm going to hard code it right now
                 String info = editEndDate.getText().toString();
                 //String endInfo = editEndDate.getText().toString();
-                if (info.equals("")) info = "09/01/23";
+                //if (info.equals("")) info = "09/01/23";
                 //if (endInfo.equals("")) endInfo = "03/01/24";
                 try {
                     myCalendarEnd.setTime(sdf.parse(info));
@@ -286,7 +365,6 @@ public class AssessmentDetails extends AppCompatActivity {
 
     public int getAssocAssessments (int inFocusCourseId) {
         int assocCourseCounter = 0;
-        assessmentList = repository.getmAllAssessments();
         for (Assessment assessment : assessmentList) {
             if (inFocusCourseId == assessment.getCourseId()) {
                 assocCourseCounter++;
@@ -304,5 +382,21 @@ public class AssessmentDetails extends AppCompatActivity {
         }
         return false;
 
+    }
+
+    public static boolean isValidDate(SimpleDateFormat sdf, String dateString) {
+
+        try {
+            Date date = sdf.parse(dateString);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
+    private void refreshScreen(int assessId) {
+        editName.setText("");
+        editEndDate.setText("");
+        this.assessId = assessId;
     }
 }

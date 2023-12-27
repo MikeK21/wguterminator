@@ -6,11 +6,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -149,12 +152,38 @@ public class CourseDetails extends AppCompatActivity {
             }
         });
 
-            Button fab = findViewById(R.id.seeCourses);
-        fab.setOnClickListener(new View.OnClickListener() {
+        Button deleteButton = findViewById(R.id.deleteCourse);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (courseId != -1) {
+                    Course deleteCourse;
+                    for (Course course : courseList) {
+                        if (course.getCourseId() == courseId) {
+                            deleteCourse = course;
+                            showAlertDialog("Deleting Term: " +course.getCourseName(), "Successful Delete");
+                            repository.delete(deleteCourse);
+                            refreshScreen(-1);
+                            break;
+                            }
+                        }
+                    }
+                }
+        });
+
+        Button newFab = findViewById(R.id.newCourse);
+        newFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CourseDetails.this, CourseList.class);
-                intent.putExtra("courseId", courseId);
+                refreshScreen(courseId);
+            }
+        });
+
+        Button seeAssessFab = findViewById(R.id.seeAssessments);
+        seeAssessFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CourseDetails.this, AssessmentList.class);
                 startActivity(intent);
             }
         });
@@ -186,6 +215,21 @@ public class CourseDetails extends AppCompatActivity {
                 }
 
                  */
+                if (editName.getText().toString().isEmpty()) {
+                    showAlertDialog("Invalid Course Name", "Try Again");
+                } else if (editAssignedInstructor.getText().toString().isEmpty()) {
+                    showAlertDialog("Invalid Instructor Name", "Try Again");
+                } else if (editInstructorEmail.getText().toString().isEmpty()) {
+                    showAlertDialog("Invalid Instructor Email", "Try Again");
+                } else if (editInstructorPhone.getText().toString().isEmpty()) {
+                    showAlertDialog("Invalid Instructor Phone Number", "Try Again");
+                } else if (selectedStatus.toString().isEmpty()) {
+                    showAlertDialog("Invalid Course Status", "Try Again");
+                } else if (editStartDate.getText().toString().isEmpty() || editEndDate.getText().toString().isEmpty()) {
+                    showAlertDialog("Invalid Dates", "Try Again");
+                } else if (!isValidDate(sdf,editStartDate.getText().toString()) || !isValidDate(sdf, editEndDate.getText().toString())) {
+                    showAlertDialog("Invalid Dates", "Try Again");
+                }
                 if (courseId == -1) {
                     course = new Course(0,0, editName.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString(), selectedStatus,
                             editAssignedInstructor.getText().toString(), editInstructorPhone.getText().toString(),editInstructorEmail.getText().toString(), editNotes.getText().toString());
@@ -362,5 +406,42 @@ public class CourseDetails extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void showAlertDialog(String message, String title) {
+        AlertDialog dialog =  new AlertDialog.Builder(CourseDetails.this)
+                .setTitle(title)
+                .setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
+        dialog.show();
+
+    }
+
+    public static boolean isValidDate(SimpleDateFormat sdf, String dateString) {
+
+        try {
+            Date date = sdf.parse(dateString);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
+    private void refreshScreen(int courseId) {
+        editName.setText("");
+        editEndDate.setText("");
+        editStartDate.setText("");
+        editInstructorName.setText("");
+        editAssignedInstructor.setText("");
+        editInstructorEmail.setText("");
+        editInstructorPhone.setText("");
+        editTerm.setText("");
+        editNotes.setText("");
+        this.courseId = courseId;
+    }
 
 }
