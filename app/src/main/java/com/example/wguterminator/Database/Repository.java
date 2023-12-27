@@ -93,6 +93,16 @@ public class Repository {
         return mAllAssocCoursesById;
     }
 
+    public int getmAllAssessForACourse(int courseId) {
+        List<Assessment> assocAssessments = mAssessmentDAO.getCountAssessmentsForCourse(courseId);
+        if (!assocAssessments.isEmpty()) {
+            return assocAssessments.size() + 1;
+        }
+        {
+            return 0;
+        }
+    }
+
     public void insert(Term term) {
         databaseExecutor.execute(()->{
             mTermDAO.insert(term);
@@ -121,13 +131,13 @@ public class Repository {
        boolean flagNoDelete = false;
        for (Course course : courseList ) {
            if (course.getTermId() == term.getTermId()) {
-               Log.i("INFO","Unable to delete Term - in use for Course: "
+               Log.e("ERROR","Unable to delete Term - in use for Course: "
                + course.getTermId());
                flagNoDelete = true;
            }
        }
        if (flagNoDelete) {
-           Log.i("INFO","There was a course - cannot delete");
+           Log.e("ERROR","There was a course - cannot delete");
        }
        if (!flagNoDelete) {
            databaseExecutor.execute(() -> {
@@ -200,7 +210,23 @@ public class Repository {
     }
 
     public void insert(Assessment assessment) {
-        databaseExecutor.execute(()->{
+        /*
+        boolean flagNoDelete = false;
+        List<Assessment> assocAssessments = mAssessmentDAO.getCountAssessmentsForCourse(assessment.getCourseId());
+            if (assocAssessments.size() >= 5) {
+                flagNoDelete = true;
+            }
+        if (flagNoDelete) {
+            Log.e("ERROR","There are already 5 assessments - cannot add");
+        }
+        if (!flagNoDelete) {
+                    databaseExecutor.execute(() -> {
+                mAssessmentDAO.insert(assessment);
+            });
+        }
+
+         */
+        databaseExecutor.execute(() -> {
             mAssessmentDAO.insert(assessment);
         });
         try {

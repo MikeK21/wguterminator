@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,13 +38,17 @@ import java.util.Locale;
 public class AssessmentDetails extends AppCompatActivity {
 
 
+    EditText editCourse;
     EditText editName;
     EditText editEndDate;
     EditText editAssessmentType;
     Assessment assessment;
     Repository repository;
+    int assocAssessments;
     int assessId;
     int courseId;
+    List<Assessment> assessmentList;
+    List<Course> courseList;
     String name;
     String stringEndDate;
     String assessmentTypeString;
@@ -65,10 +71,19 @@ public class AssessmentDetails extends AppCompatActivity {
         stringEndDate = getIntent().getStringExtra("endDate");
         assessmentTypeString = getIntent().getStringExtra("assessType");
 
+        editCourse = findViewById(R.id.assessCourseId);
         editName = findViewById(R.id.assessNameDetails);
         editEndDate = findViewById(R.id.assessEndDateDetails);
         editAssessmentType = findViewById(R.id.assessTypeDetails);
         repository = new Repository(getApplication());
+
+        // Check if editCourse is not null before calling setText
+        if (editCourse != null) {
+            editCourse.setText(String.valueOf(courseId));
+        } else {
+            // Log an error or handle the situation where editName is null
+            Log.e("AssessmentDetails", "editCourse is null");
+        }
 
         // Check if editName is not null before calling setText
         if (editName != null) {
@@ -94,6 +109,18 @@ public class AssessmentDetails extends AppCompatActivity {
             Log.e("AssessmentDetails", "editAssessmentType is null");
         }
 
+        Button newAssessButton = findViewById(R.id.newAssess);
+        newAssessButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editCourse.setText("");
+                editName.setText("");
+                editEndDate.setText("");
+                editAssessmentType.setText("");
+                assessId = -1;
+            }
+        });
+
         Button assessListButton = findViewById(R.id.seeAssess);
         assessListButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,14 +142,49 @@ public class AssessmentDetails extends AppCompatActivity {
                             assessmentType = AssessmentType.performance;
                             break;
                     }
+                    // Add new assessment
                     if (assessId == -1) {
+                        int editCourseId = Integer.parseInt(editCourse.getText().toString());
                         // need to add associated course id
-                        assessment = new Assessment(0,0,editName.getText().toString(),editEndDate.getText().toString(),assessmentType);
-                        repository.insert(assessment);
+                        assessment = new Assessment(0, editCourseId,editName.getText().toString(),editEndDate.getText().toString(),assessmentType);
+                        //assocAssessments = repository.getmAllAssessForACourse(assessment.getCourseId());
+
+                        if (getAssocAssessments(editCourseId) >= 5 ) {
+                            showAlertDialog("Cannot add assessment as Course already has" +
+                                    " or will have more than 5 assessments!", "Course Conflict Error");
+                        }
+                        else if (!checkIfCourseExists(editCourseId)) {
+                            showAlertDialog("Cannot add assessment as Course doesn't exist!", "Course doesn't exist error");
+                        }
+                        else {
+                            repository.insert(assessment);
+                        }
+                        /*
+                        if (assocAssessments >= 5) {
+                            showAlertDialog("Cannot add assessment as Course already has" +
+                                    " or will have more than 5 assessments!", "Course Conflict Error");
+                        }
+                        else {
+                            repository.insert(assessment);
+                        }
+                        */
+                        // Update assessment
                     } else {
                         // need to add associated course id
-                        assessment = new Assessment(assessId,courseId, editName.getText().toString(),editEndDate.getText().toString(),assessmentType);
-                        repository.update(assessment);
+                        int editCourseId = Integer.parseInt(editCourse.getText().toString());
+
+                        assessment = new Assessment(assessId, editCourseId, editName.getText().toString(),editEndDate.getText().toString(),assessmentType);
+                        //assocAssessments = repository.getmAllAssessForACourse(assessment.getCourseId());
+                        if (getAssocAssessments(editCourseId) >= 5 ) {
+                            showAlertDialog("Cannot add assessment as Course already has" +
+                                    " or will have more than 5 assessments!", "Course Conflict Error");
+                        }
+                        else if (!checkIfCourseExists(editCourseId)) {
+                            showAlertDialog("Cannot add assessment as Course doesn't exist!", "Course doesn't exist error");
+                        }
+                        else {
+                            repository.update(assessment);
+                        }
                     }
                 }
             }
@@ -205,5 +267,42 @@ public class AssessmentDetails extends AppCompatActivity {
              //   return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showAlertDialog(String message, String title) {
+        AlertDialog dialog =  new AlertDialog.Builder(AssessmentDetails.this)
+                .setTitle(title)
+                .setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
+        dialog.show();
+
+    }
+
+    public int getAssocAssessments (int inFocusCourseId) {
+        int assocCourseCounter = 0;
+        assessmentList = repository.getmAllAssessments();
+        for (Assessment assessment : assessmentList) {
+            if (inFocusCourseId == assessment.getCourseId()) {
+                assocCourseCounter++;
+            }
+        }
+        return assocCourseCounter;
+    }
+
+    public boolean checkIfCourseExists (int inFocusCourseId) {
+        courseList = repository.getmAllCourses();
+        for (Course course : courseList) {
+            if (inFocusCourseId == course.getCourseId()) {
+                return true;
+            }
+        }
+        return false;
+
     }
 }
