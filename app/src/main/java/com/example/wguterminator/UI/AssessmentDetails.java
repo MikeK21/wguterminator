@@ -305,15 +305,16 @@ public class AssessmentDetails extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
+        String myFormat = "MM/dd/yy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        Date myDate = null;
+
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();
                 return true;
-            case R.id.notifyStartOption:
+            case R.id.notifyAssessmentEnd:
                 String dateFromScreen = editEndDate.getText().toString();
-                String myFormat = "MM/dd/yy"; //In which you need put here
-                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-                Date myDate = null;
                 try {
                     myDate = sdf.parse(dateFromScreen);
                 } catch (ParseException e) {
@@ -321,7 +322,7 @@ public class AssessmentDetails extends AppCompatActivity {
                 }
                 Long trigger = myDate.getTime();
                 Intent intent = new Intent(AssessmentDetails.this, MyReceiver.class);
-                intent.putExtra("key", dateFromScreen + " " + assessment.getAssessmentName() + " End Date");
+                intent.putExtra("key", dateFromScreen + " " + name + " End Date");
                 PendingIntent sender = PendingIntent.getBroadcast(AssessmentDetails.this, ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
