@@ -30,6 +30,7 @@ public class Repository {
     private List<Course> mAllAssocCourses;
     private List<Course> mAllAssocCoursesById;
     private List<Term> mTermNameById;
+    private List<Term> mTermIdByName;
 
 
 
@@ -67,6 +68,18 @@ public class Repository {
             e.printStackTrace();
         }
         return mTermNameById;
+    }
+
+    public List<Term> getmTermIdByTermName(String termName) {
+        databaseExecutor.execute(() ->{
+            mTermIdByName = mTermDAO.getTermIdByName(termName);
+        });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return mTermIdByName;
     }
 
     public List<Course> getmAllCourseWithAssocTerm(Term term) {

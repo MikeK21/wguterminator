@@ -55,6 +55,7 @@ public class CourseDetails extends AppCompatActivity {
     CourseStatus selectedStatus;
     int courseId;
     int termId;
+    String selectedTermName;
     Course course;
     Repository repository;
     DatePickerDialog.OnDateSetListener startDate;
@@ -75,7 +76,7 @@ public class CourseDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_details);
         editName = findViewById(R.id.courseName);
-        editTerm = findViewById(R.id.assocTerm);
+        //editTerm = findViewById(R.id.assocTerm);
         editNotes = findViewById(R.id.courseNotes);
         //editStatus = findViewById(R.id.courseStatus);
         editAssignedInstructor = findViewById(R.id.assignedInstructor);
@@ -113,14 +114,46 @@ public class CourseDetails extends AppCompatActivity {
         editInstructorPhone.setText(instructorPhone);
         repository = new Repository(getApplication());
         //List<Course> assocTermId = repository.getmAllCourseWithAssocTermById(termId);
-        String assocTermName = repository.getmTermByTermId(termId).get(0).getTermName();
-        editTerm.setText(assocTermName);
+        List<Term> assocTerms = repository.getmTermByTermId(termId);
+        int assocTermNameResultCount =assocTerms.size();
+        if (assocTermNameResultCount > 0) {
+            String selectedTermName = assocTerms.get(0).getTermName();
+            //editTerm.setText(assocTermName);
+        } else {
+            selectedTermName = "";
+        }
 
 
         RecyclerView recyclerView = findViewById(R.id.assessrecyclerview);
         final AssessmentAdapter assessmentAdapter = new AssessmentAdapter(this);
         recyclerView.setAdapter(assessmentAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Term ID Spinner
+        ArrayList<Term> termList = new ArrayList<>();
+        ArrayList<String> termNameList = new ArrayList<>();
+        termList.addAll(repository.getmAllTerms());
+        for (Term term : termList) {
+            termNameList.add(term.getTermName());
+        }
+
+        ArrayAdapter<String> termIdArrayAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item,termNameList);
+        Spinner termNameSpinner = findViewById(R.id.termNameSpinner);
+        termNameSpinner.setAdapter(termIdArrayAdapter);
+        termNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //editStatus.setText(courseStatusArrayAdapter.getItem(i).toString());
+                selectedTermName = (String) termNameSpinner.getSelectedItem();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                //editStatus.setText("Nothing selected");
+                selectedTermName = "";
+            }
+        });
 
 
         ArrayList<Course> courseList = new ArrayList<>();
@@ -215,6 +248,7 @@ public class CourseDetails extends AppCompatActivity {
                 }
 
                  */
+                termId = repository.getmTermIdByTermName(selectedTermName).get(0).getTermId();
                 if (editName.getText().toString().isEmpty()) {
                     showAlertDialog("Invalid Course Name", "Try Again");
                 } else if (editAssignedInstructor.getText().toString().isEmpty()) {
@@ -223,6 +257,8 @@ public class CourseDetails extends AppCompatActivity {
                     showAlertDialog("Invalid Instructor Email", "Try Again");
                 } else if (editInstructorPhone.getText().toString().isEmpty()) {
                     showAlertDialog("Invalid Instructor Phone Number", "Try Again");
+                } else if (selectedTermName.isEmpty()) {
+                    showAlertDialog("Invalid Term Name", "Try Again");
                 } else if (selectedStatus.toString().isEmpty()) {
                     showAlertDialog("Invalid Course Status", "Try Again");
                 } else if (editStartDate.getText().toString().isEmpty() || editEndDate.getText().toString().isEmpty()) {
@@ -231,7 +267,7 @@ public class CourseDetails extends AppCompatActivity {
                     showAlertDialog("Invalid Dates", "Try Again");
                 }
                 if (courseId == -1) {
-                    course = new Course(0,0, editName.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString(), selectedStatus,
+                    course = new Course(0,termId, editName.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString(), selectedStatus,
                             editAssignedInstructor.getText().toString(), editInstructorPhone.getText().toString(),editInstructorEmail.getText().toString(), editNotes.getText().toString());
                     repository.insert(course);
                 }
@@ -252,7 +288,7 @@ public class CourseDetails extends AppCompatActivity {
                 //get value from other screen,but I'm going to hard code it right now
                 String info = editStartDate.getText().toString();
                 //String endInfo = editEndDate.getText().toString();
-                if (info.equals("")) info = "09/01/23";
+                //if (info.equals("")) info = "09/01/23";
                 //if (endInfo.equals("")) endInfo = "03/01/24";
                 try {
                     myCalendarStart.setTime(sdf.parse(info));
@@ -274,7 +310,7 @@ public class CourseDetails extends AppCompatActivity {
                 Date date;
                 //get value from other screen,but I'm going to hard code it right now
                 String endInfo = editEndDate.getText().toString();
-                if (endInfo.equals("")) endInfo = "03/01/24";
+                //if (endInfo.equals("")) endInfo = "03/01/24";
                 try {
                     myCalendarEnd.setTime(sdf.parse(endInfo));
                 } catch (ParseException e) {
@@ -438,8 +474,8 @@ public class CourseDetails extends AppCompatActivity {
         editAssignedInstructor.setText("");
         editInstructorEmail.setText("");
         editInstructorPhone.setText("");
-        editTerm.setText("");
         editNotes.setText("");
+        selectedTermName = "";
         this.courseId = courseId;
     }
 

@@ -77,6 +77,7 @@ public class AssessmentDetails extends AppCompatActivity {
         //editCourse = findViewById(R.id.assessCourseId);
         editName = findViewById(R.id.assessNameDetails);
         editEndDate = findViewById(R.id.assessEndDateDetails);
+        editEndDate.setText(sdf.format(new Date()));
         //editAssessmentType = findViewById(R.id.typeSpinner);
         repository = new Repository(getApplication());
 
@@ -145,8 +146,14 @@ public class AssessmentDetails extends AppCompatActivity {
 
         // Check if editName is not null before calling setText
         if (editEndDate != null) {
-            editEndDate.setText(stringEndDate);
-        } else {
+            if (stringEndDate == null) {
+                stringEndDate = sdf.format(new Date());
+                editEndDate.setText(sdf.format(new Date()));
+            } else {
+                editEndDate.setText(stringEndDate);
+            }
+        }
+        else {
             // Log an error or handle the situation where editName is null
             Log.e("AssessmentDetails", "editEndDate is null");
         }
@@ -210,6 +217,7 @@ public class AssessmentDetails extends AppCompatActivity {
                             assessmentType = AssessmentType.performance;
                             break;
                     }
+                }
                     if (editName.getText().toString().isEmpty()) {
                         showAlertDialog("Invalid Assessment Name", "Try Again");
                     } else if (editCourseId == -1) {
@@ -237,6 +245,8 @@ public class AssessmentDetails extends AppCompatActivity {
                         }
                         else {
                             repository.insert(assessment);
+                            showAlertDialog("Successful Assessment Creation: "
+                            + assessment.getAssessmentName(), "Successful Add");
                         }
                         /*
                         if (assocAssessments >= 5) {
@@ -263,10 +273,11 @@ public class AssessmentDetails extends AppCompatActivity {
                         }
                         else {
                             repository.update(assessment);
+                            showAlertDialog("Successful Assessment Update: "
+                                    + assessment.getAssessmentName(), "Successful Update");
                         }
                     }
                 }
-            }
         });
 
         editEndDate.setOnClickListener(new View.OnClickListener() {
