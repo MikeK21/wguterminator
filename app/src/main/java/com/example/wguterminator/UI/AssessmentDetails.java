@@ -38,16 +38,12 @@ import java.util.Locale;
 
 public class AssessmentDetails extends AppCompatActivity {
 
-
-    EditText editCourse;
     EditText editName;
     EditText editEndDate;
-    EditText editAssessmentType;
     Assessment assessment;
     Repository repository;
     AssessmentType selectedType;
     Integer selectedCourseId;
-    int assocAssessments;
     int assessId;
     int courseId;
     List<Assessment> assessmentList;
@@ -67,18 +63,15 @@ public class AssessmentDetails extends AppCompatActivity {
         Log.d("Debug", "About to set content view");
         setContentView(R.layout.activity_assessment_details);
         Log.d("Debug", "Content view set successfully");
-        // Need to fill this out to match in AssessmentAdapter
         assessId = getIntent().getIntExtra("assessId",-1);
         courseId = getIntent().getIntExtra("courseId", -1);
         name = getIntent().getStringExtra("name");
         stringEndDate = getIntent().getStringExtra("endDate");
         assessmentTypeString = getIntent().getStringExtra("assessType");
 
-        //editCourse = findViewById(R.id.assessCourseId);
         editName = findViewById(R.id.assessNameDetails);
         editEndDate = findViewById(R.id.assessEndDateDetails);
         editEndDate.setText(sdf.format(new Date()));
-        //editAssessmentType = findViewById(R.id.typeSpinner);
         repository = new Repository(getApplication());
 
         assessmentList = repository.getmAllAssessments();
@@ -109,7 +102,6 @@ public class AssessmentDetails extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                //editStatus.setText("Nothing selected");
                 for (AssessmentType type : AssessmentType.values()) {
                     if (selectedType.equals(type)) {
                         selectedType = type;
@@ -118,6 +110,7 @@ public class AssessmentDetails extends AppCompatActivity {
             }
         });
 
+        // Course Id Adapter
         ArrayAdapter<Integer> courseIdArrayAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item,courseIdList);
         Spinner courseIdSpinner = findViewById(R.id.courseIdSpinner);
@@ -125,13 +118,11 @@ public class AssessmentDetails extends AppCompatActivity {
         courseIdSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                //editStatus.setText(courseStatusArrayAdapter.getItem(i).toString());
                 selectedCourseId = (Integer) courseIdSpinner.getSelectedItem();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                //editStatus.setText("Nothing selected");
                 selectedCourseId = 0;
             }
         });
@@ -140,7 +131,6 @@ public class AssessmentDetails extends AppCompatActivity {
         if (editName != null) {
             editName.setText(name);
         } else {
-            // Log an error or handle the situation where editName is null
             Log.e("AssessmentDetails", "editName is null");
         }
 
@@ -154,7 +144,6 @@ public class AssessmentDetails extends AppCompatActivity {
             }
         }
         else {
-            // Log an error or handle the situation where editName is null
             Log.e("AssessmentDetails", "editEndDate is null");
         }
 
@@ -163,6 +152,7 @@ public class AssessmentDetails extends AppCompatActivity {
         newAssessButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Reset values
                 courseIdSpinner.setSelection(0);
                 editName.setText("");
                 editEndDate.setText("");
@@ -232,9 +222,7 @@ public class AssessmentDetails extends AppCompatActivity {
                     // Add new assessment
                     if (assessId == -1) {
                         editCourseId = selectedCourseId;
-                        // need to add associated course id
                         assessment = new Assessment(0, editCourseId,editName.getText().toString(),editEndDate.getText().toString(),assessmentType);
-                        //assocAssessments = repository.getmAllAssessForACourse(assessment.getCourseId());
 
                         if (getAssocAssessments(editCourseId) >= 5 ) {
                             showAlertDialog("Cannot add assessment as Course already has" +
@@ -248,22 +236,10 @@ public class AssessmentDetails extends AppCompatActivity {
                             showAlertDialog("Successful Assessment Creation: "
                             + assessment.getAssessmentName(), "Successful Add");
                         }
-                        /*
-                        if (assocAssessments >= 5) {
-                            showAlertDialog("Cannot add assessment as Course already has" +
-                                    " or will have more than 5 assessments!", "Course Conflict Error");
-                        }
-                        else {
-                            repository.insert(assessment);
-                        }
-                        */
-                        // Update assessment
                     } else {
-                        // need to add associated course id
                         editCourseId = selectedCourseId;
 
                         assessment = new Assessment(assessId, editCourseId, editName.getText().toString(),editEndDate.getText().toString(),assessmentType);
-                        //assocAssessments = repository.getmAllAssessForACourse(assessment.getCourseId());
                         if (getAssocAssessments(editCourseId) >= 5 ) {
                             showAlertDialog("Cannot add assessment as Course already has" +
                                     " or will have more than 5 assessments!", "Course Conflict Error");
@@ -285,15 +261,9 @@ public class AssessmentDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Date date;
-                //get value from other screen,but I'm going to hard code it right now
                 String info = editEndDate.getText().toString();
-                //String endInfo = editEndDate.getText().toString();
-                //if (info.equals("")) info = "09/01/23";
-                //if (endInfo.equals("")) endInfo = "03/01/24";
                 try {
                     myCalendarEnd.setTime(sdf.parse(info));
-                    //myCalendarEnd.setTime(sdf.parse(endInfo));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -303,6 +273,9 @@ public class AssessmentDetails extends AppCompatActivity {
             }
         });
 
+        /** Set up the end date with date picker
+         *
+         */
         endDate = new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -353,12 +326,16 @@ public class AssessmentDetails extends AppCompatActivity {
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
                 return true;
-            //case R.id.notifyEndOption:
-             //   return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Setup Alert Messages for entire class
+     * @param message
+     * @param title
+     */
     private void showAlertDialog(String message, String title) {
         AlertDialog dialog =  new AlertDialog.Builder(AssessmentDetails.this)
                 .setTitle(title)
@@ -374,6 +351,11 @@ public class AssessmentDetails extends AppCompatActivity {
 
     }
 
+    /** Get Associated Assessments based on current course Id
+     *
+     * @param inFocusCourseId
+     * @return
+     */
     public int getAssocAssessments (int inFocusCourseId) {
         int assocCourseCounter = 0;
         for (Assessment assessment : assessmentList) {
@@ -384,6 +366,11 @@ public class AssessmentDetails extends AppCompatActivity {
         return assocCourseCounter;
     }
 
+    /**
+     * Check if course exists based on current course ID
+     * @param inFocusCourseId
+     * @return
+     */
     public boolean checkIfCourseExists (int inFocusCourseId) {
         courseList = repository.getmAllCourses();
         for (Course course : courseList) {
@@ -395,6 +382,12 @@ public class AssessmentDetails extends AppCompatActivity {
 
     }
 
+    /**
+     * Check if date is valid
+     * @param sdf
+     * @param dateString
+     * @return
+     */
     public static boolean isValidDate(SimpleDateFormat sdf, String dateString) {
 
         try {
@@ -405,6 +398,10 @@ public class AssessmentDetails extends AppCompatActivity {
         }
     }
 
+    /**
+     * Refresh values on screen
+     * @param assessId
+     */
     private void refreshScreen(int assessId) {
         editName.setText("");
         editEndDate.setText("");

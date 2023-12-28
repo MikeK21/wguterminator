@@ -18,6 +18,11 @@ public class MyReceiver extends BroadcastReceiver {
     String channel_id = "Channel Id: 1";
     static int notificationID;
 
+    /**
+     * Handle Notifications via Receiver
+     * @param context
+     * @param intent
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
         Toast.makeText(context, intent.getStringExtra("key"), Toast.LENGTH_LONG).show();

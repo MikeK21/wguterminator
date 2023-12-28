@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wguterminator.Entities.Assessment;
-import com.example.wguterminator.Entities.Course;
 import com.example.wguterminator.R;
 
 import java.util.List;
@@ -25,13 +24,11 @@ public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.As
     class AssessmentViewHolder extends RecyclerView.ViewHolder {
         private final TextView assessItemView;
         private final TextView assessItemView2;
-        //private final TextView assessItemView3;
 
         private AssessmentViewHolder(View itemView) {
             super(itemView);
             assessItemView = itemView.findViewById(R.id.assessName);
             assessItemView2 = itemView.findViewById(R.id.assessType);
-            //assessItemView3 = itemView.findViewById(R.id.assessEndDate);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -59,22 +56,24 @@ public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.As
         View itemView = mInflater.inflate(R.layout.assessment_list_item,parent,false);
         return new AssessmentAdapter.AssessmentViewHolder(itemView);    }
 
+    /**
+     * View Holder to setup Assessment View
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull AssessmentAdapter.AssessmentViewHolder holder, int position) {
 
         if (mAssessments != null) {
             Assessment current = mAssessments.get(position);
             String name = current.getAssessmentName();
-            //String endDate = current.getAssessmentEndDate();
             String assessType = current.getAssessmentType().toString();
             holder.assessItemView.setText(name);
             holder.assessItemView2.setText(assessType);
-            //holder.assessItemView3.setText(endDate);
         }
         else {
             holder.assessItemView.setText("no name");
             holder.assessItemView2.setText("no type");
-            //holder.assessItemView3.setText("no date");
         }
     }
 

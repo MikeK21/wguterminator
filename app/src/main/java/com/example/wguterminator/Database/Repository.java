@@ -31,9 +31,6 @@ public class Repository {
     private List<Course> mAllAssocCoursesById;
     private List<Term> mTermNameById;
     private List<Term> mTermIdByName;
-
-
-
     private static int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
@@ -46,6 +43,9 @@ public class Repository {
         mUserDAO = db.userDAO();
     }
 
+    /** Get All Terms
+     * @return
+     */
     public List<Term> getmAllTerms() {
         databaseExecutor.execute(() ->{
             mAllTerms = mTermDAO.getAllTerms();
@@ -58,6 +58,11 @@ public class Repository {
         return mAllTerms;
     }
 
+    /** Get Term Object by Term Id
+     *
+     * @param termId
+     * @return
+     */
     public List<Term> getmTermByTermId(int termId) {
         databaseExecutor.execute(() ->{
             mTermNameById = mTermDAO.getTermNameById(termId);
@@ -70,6 +75,11 @@ public class Repository {
         return mTermNameById;
     }
 
+    /** Get Term Id By Term Name
+     *
+     * @param termName
+     * @return
+     */
     public List<Term> getmTermIdByTermName(String termName) {
         databaseExecutor.execute(() ->{
             mTermIdByName = mTermDAO.getTermIdByName(termName);
@@ -82,6 +92,11 @@ public class Repository {
         return mTermIdByName;
     }
 
+    /** Get Courses Based on Associated Term
+     *
+     * @param term
+     * @return
+     */
     public List<Course> getmAllCourseWithAssocTerm(Term term) {
         databaseExecutor.execute(() ->{
             mAllAssocCourses = mCourseDAO.getAllAssociatedCourses(term.getTermId());
@@ -94,6 +109,11 @@ public class Repository {
         return mAllAssocCourses;
     }
 
+    /** Get Courses with Associated Term By Term ID
+     *
+     * @param termId
+     * @return
+     */
     public List<Course> getmAllCourseWithAssocTermById(int termId) {
         databaseExecutor.execute(() ->{
             mAllAssocCoursesById = mCourseDAO.getAllAssociatedCourses(termId);
@@ -106,6 +126,11 @@ public class Repository {
         return mAllAssocCoursesById;
     }
 
+    /** Get All assessments for a course by course id
+     *
+     * @param courseId
+     * @return
+     */
     public int getmAllAssessForACourse(int courseId) {
         List<Assessment> assocAssessments = mAssessmentDAO.getCountAssessmentsForCourse(courseId);
         if (!assocAssessments.isEmpty()) {
@@ -138,6 +163,11 @@ public class Repository {
         }
     }
 
+    /**
+     * Delete a term but ensure theres no course in use for it
+     * @param term
+     * @param courseList
+     */
     public void delete(Term term, List<Course> courseList) {
 
        //List<Course> assocCourseList = mCourseDAO.getAllAssociatedCourses(term.getTermId())
@@ -164,6 +194,10 @@ public class Repository {
         }
     }
 
+    /**
+     * Get Courses
+     * @return
+     */
     public List<Course> getmAllCourses() {
         databaseExecutor.execute(() ->{
             mAllCourses = mCourseDAO.getAllCourses();
@@ -176,6 +210,10 @@ public class Repository {
         return mAllCourses;
     }
 
+    /**
+     * Insert Course
+     * @param course
+     */
     public void insert(Course course) {
         databaseExecutor.execute(()->{
             mCourseDAO.insert(course);
@@ -187,6 +225,10 @@ public class Repository {
         }
     }
 
+    /**
+     * Update courses
+     * @param course
+     */
     public void update(Course course) {
         databaseExecutor.execute(()->{
             mCourseDAO.update(course);
@@ -198,6 +240,10 @@ public class Repository {
         }
     }
 
+    /**
+     * Delete Courses
+     * @param course
+     */
     public void delete(Course course) {
         databaseExecutor.execute(()->{
             mCourseDAO.delete(course);
@@ -209,7 +255,10 @@ public class Repository {
         }
     }
 
-
+    /**
+     * Get Assessments
+     * @return
+     */
     public List<Assessment> getmAllAssessments() {
         databaseExecutor.execute(() ->{
             mAllAssessments = mAssessmentDAO.getAllAssessments();
@@ -222,23 +271,10 @@ public class Repository {
         return mAllAssessments;
     }
 
+    /** Insert assessment
+     * @param assessment
+     */
     public void insert(Assessment assessment) {
-        /*
-        boolean flagNoDelete = false;
-        List<Assessment> assocAssessments = mAssessmentDAO.getCountAssessmentsForCourse(assessment.getCourseId());
-            if (assocAssessments.size() >= 5) {
-                flagNoDelete = true;
-            }
-        if (flagNoDelete) {
-            Log.e("ERROR","There are already 5 assessments - cannot add");
-        }
-        if (!flagNoDelete) {
-                    databaseExecutor.execute(() -> {
-                mAssessmentDAO.insert(assessment);
-            });
-        }
-
-         */
         databaseExecutor.execute(() -> {
             mAssessmentDAO.insert(assessment);
         });
@@ -249,6 +285,10 @@ public class Repository {
         }
     }
 
+    /** Update Assessment
+     *
+     * @param assessment
+     */
     public void update(Assessment assessment) {
         databaseExecutor.execute(()->{
             mAssessmentDAO.update(assessment);
@@ -260,6 +300,10 @@ public class Repository {
         }
     }
 
+    /** Delete Assessment
+     *
+     * @param assessment
+     */
     public void delete(Assessment assessment) {
         databaseExecutor.execute(()->{
             mAssessmentDAO.delete(assessment);
@@ -271,6 +315,10 @@ public class Repository {
         }
     }
 
+    /** Get All Users
+     *
+     * @return
+     */
     public List<User> getmAllUsers() {
         databaseExecutor.execute(() ->{
             mAllUsers = mUserDAO.getAllUsers();
@@ -283,6 +331,10 @@ public class Repository {
         return mAllUsers;
     }
 
+    /** Insert User
+     *
+     * @param user
+     */
     public void insert(User user) {
         databaseExecutor.execute(()->{
             mUserDAO.insert(user);
@@ -294,6 +346,10 @@ public class Repository {
         }
     }
 
+    /** Update User
+     *
+     * @param user
+     */
     public void update(User user) {
         databaseExecutor.execute(()->{
             mUserDAO.update(user);
@@ -305,6 +361,9 @@ public class Repository {
         }
     }
 
+    /** Delete User
+     * @param user
+     */
     public void delete(User user) {
         databaseExecutor.execute(()->{
             mUserDAO.delete(user);

@@ -2,7 +2,9 @@ package com.example.wguterminator.Entities;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-// Add course id to this model
+/** Assessment Model
+ *
+ */
 @Entity(tableName = "assessments")
 public class Assessment {
     @PrimaryKey(autoGenerate = true)

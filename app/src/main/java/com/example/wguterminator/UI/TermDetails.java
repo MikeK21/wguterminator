@@ -46,7 +46,6 @@ public class TermDetails extends AppCompatActivity {
     String stringEndDate;
     int id;
     int termId;
-    EditText editId;
     Repository repository;
     Term term;
     DatePickerDialog.OnDateSetListener startDate;
@@ -54,6 +53,11 @@ public class TermDetails extends AppCompatActivity {
     final Calendar myCalendarStart = Calendar.getInstance();
     final Calendar myCalendarEnd = Calendar.getInstance();
 
+    /**
+     * Handle Alerts for the class
+     * @param message
+     * @param title
+     */
     private void showAlertDialog(String message, String title) {
         AlertDialog dialog =  new AlertDialog.Builder(TermDetails.this)
                 .setTitle(title)
@@ -92,7 +96,6 @@ public class TermDetails extends AppCompatActivity {
         final CourseAdapter courseAdapter = new CourseAdapter(this);
         recyclerView.setAdapter(courseAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //Added this at end of video 3
         List<Course> filteredCourses = new ArrayList<>();
         for (Course c : repository.getmAllCourses()) {
             if (c.getTermId() == termId) filteredCourses.add(c);
@@ -100,6 +103,7 @@ public class TermDetails extends AppCompatActivity {
         courseAdapter.setCourses(filteredCourses);
 
         Button newTermFab = findViewById(R.id.newTerm);
+        // Refresh the screen
         newTermFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,32 +153,15 @@ public class TermDetails extends AppCompatActivity {
                                 showAlertDialog("Cannot delete a term where that a course is assigned to!", "Course Conflict Error");
                                 break;
                             } else {
-                            /*
-                            for (Course course : repository.getmAllCourses() ) {
-                                if (course.getTermId() == term.getTermId()) {
-                                    Log.i("INFO","Unable to delete Term - in use for Course: "
-                                            + course.getName());
-                                    showAlertDialog("Cannot delete a term where that a course is assigned to!");
-                                    break;
-                                }
-                            }
-                             */
                                 repository.delete(term, repository.getmAllCourses());
                                 showAlertDialog("Deleting Term: " + term.getTermName(), "Successful Delete");
                                 refreshScreen(-1);
                             }
                         }
-                        /*
-                        else {
-                            showAlertDialog("No term found - Did you select it from Term List?", "No Term Found");
-                        }
-                         */
                     }
                 }
             }
         });
-
-
 
         ExtendedFloatingActionButton fab = findViewById(R.id.floatingActionButton3);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -195,33 +182,15 @@ public class TermDetails extends AppCompatActivity {
             }
         });
 
-        /*
-        FloatingActionButton fab2 = findViewById(R.id.floatingActionButtonCourses);
-        fab2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(TermDetails.this, CourseDetails.class);
-                intent.putExtra("courseId", id);
-                startActivity(intent);
-            }
-        });
-
-         */
-
         editDate.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 Date date;
-                //get value from other screen,but I'm going to hard code it right now
                 String info = editDate.getText().toString();
-                //String endInfo = editEndDate.getText().toString();
-                //if (info.equals("")) info = "09/01/23";
-                //if (endInfo.equals("")) endInfo = "03/01/24";
                 try {
                     myCalendarStart.setTime(sdf.parse(info));
-                    //myCalendarEnd.setTime(sdf.parse(endInfo));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -238,7 +207,6 @@ public class TermDetails extends AppCompatActivity {
                 // TODO Auto-generated method stub
                 Date date;
                 String endInfo = editEndDate.getText().toString();
-                //if (endInfo.equals("")) endInfo = "03/01/24";
                 try {
                     myCalendarEnd.setTime(sdf.parse(endInfo));
                 } catch (ParseException e) {
@@ -260,8 +228,6 @@ public class TermDetails extends AppCompatActivity {
                 myCalendarStart.set(Calendar.YEAR, year);
                 myCalendarStart.set(Calendar.MONTH, monthOfYear);
                 myCalendarStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-
                 updateLabelStart();
             }
 
@@ -274,13 +240,15 @@ public class TermDetails extends AppCompatActivity {
                 myCalendarEnd.set(Calendar.YEAR, year);
                 myCalendarEnd.set(Calendar.MONTH, monthOfYear);
                 myCalendarEnd.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
                 updateLabelEnd();
             }
-
         };
 
     }
+
+    /**
+     * Update Start Date
+     */
     private void updateLabelStart() {
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
@@ -288,13 +256,20 @@ public class TermDetails extends AppCompatActivity {
         editDate.setText(sdf.format(myCalendarStart.getTime()));
     }
 
+    /**
+     * Update End Date
+     */
     private void updateLabelEnd() {
-        String myFormat = "MM/dd/yy"; //In which you need put here
+        String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         editEndDate.setText(sdf.format(myCalendarEnd.getTime()));
     }
 
+    /**
+     * Refresh the screen with clear/clean values
+     * @param termId
+     */
     private void refreshScreen(int termId) {
         editName.setText("");
         editDate.setText("");
@@ -302,6 +277,12 @@ public class TermDetails extends AppCompatActivity {
         this.termId = termId;
     }
 
+    /**
+     * Check that dates are valid and parseable
+     * @param sdf
+     * @param dateString
+     * @return
+     */
     public static boolean isValidDate(SimpleDateFormat sdf, String dateString) {
 
         try {
@@ -330,8 +311,5 @@ public class TermDetails extends AppCompatActivity {
             }
             courseAdapter2.setCourses(filteredCourses2);
         }
-
-        //pick up at ProductDetails.java line 101 from dolphinlive github
-
 
     }

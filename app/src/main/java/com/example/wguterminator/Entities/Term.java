@@ -6,8 +6,7 @@ import android.widget.DatePicker;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-/*
-Class for terms
+/** Term Model
  */
 @Entity(tableName = "terms")
 public class Term {

@@ -22,7 +22,6 @@ public interface UserDAO {
     void delete(User user);
     @Query("SELECT * FROM users ORDER BY userId ASC")
     List<User> getAllUsers();
-
     @Query("SELECT * FROM users WHERE userId = :userId ORDER BY userId ASC")
     List<User> getAllAssociatedUsers(int userId);
 

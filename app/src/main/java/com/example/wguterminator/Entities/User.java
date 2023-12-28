@@ -3,6 +3,9 @@ package com.example.wguterminator.Entities;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+/** User Model
+ *
+ */
 @Entity(tableName = "users")
 public class User {
     @PrimaryKey(autoGenerate = true)

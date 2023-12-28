@@ -76,9 +76,7 @@ public class CourseDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_details);
         editName = findViewById(R.id.courseName);
-        //editTerm = findViewById(R.id.assocTerm);
         editNotes = findViewById(R.id.courseNotes);
-        //editStatus = findViewById(R.id.courseStatus);
         editAssignedInstructor = findViewById(R.id.assignedInstructor);
         editInstructorEmail = findViewById(R.id.courseInstructorEmail);
         editInstructorPhone = findViewById(R.id.courseInstructorPhone);
@@ -88,10 +86,6 @@ public class CourseDetails extends AppCompatActivity {
         editStartDate.setText(sdf.format(new Date()));
         editEndDate = findViewById(R.id.courseEndDate);
         editEndDate.setText(sdf.format(new Date()));
-        //editAssignedInstructor.findViewById(R.id.assignedInstructor);
-        //editInstructorName.setText(getIntent().getStringExtra("instructorName"));
-        //editInstructorEmail.findViewById(R.id.courseInstructorEmail);
-        //editInstructorPhone.findViewById(R.id.courseInstructorPhone);
         courseId = getIntent().getIntExtra("courseId", -1);
         termId = getIntent().getIntExtra("termId", -1);
         name = getIntent().getStringExtra("name");
@@ -102,9 +96,6 @@ public class CourseDetails extends AppCompatActivity {
         stringStartDate = getIntent().getStringExtra("startDate");
         stringEndDate = getIntent().getStringExtra("endDate");
         status = getIntent().getStringExtra("status");
-        // comment out for now
-        //startDate = getIntent().getStringExtra("startDate");
-        //endDate = getIntent().getStringExtra("endDate");
         editName.setText(name);
         editNotes.setText(note);
         editStartDate.setText(stringStartDate);
@@ -113,16 +104,13 @@ public class CourseDetails extends AppCompatActivity {
         editInstructorEmail.setText(instructorEmail);
         editInstructorPhone.setText(instructorPhone);
         repository = new Repository(getApplication());
-        //List<Course> assocTermId = repository.getmAllCourseWithAssocTermById(termId);
         List<Term> assocTerms = repository.getmTermByTermId(termId);
         int assocTermNameResultCount =assocTerms.size();
         if (assocTermNameResultCount > 0) {
             String selectedTermName = assocTerms.get(0).getTermName();
-            //editTerm.setText(assocTermName);
         } else {
             selectedTermName = "";
         }
-
 
         RecyclerView recyclerView = findViewById(R.id.assessrecyclerview);
         final AssessmentAdapter assessmentAdapter = new AssessmentAdapter(this);
@@ -144,18 +132,15 @@ public class CourseDetails extends AppCompatActivity {
         termNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                //editStatus.setText(courseStatusArrayAdapter.getItem(i).toString());
                 selectedTermName = (String) termNameSpinner.getSelectedItem();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                //editStatus.setText("Nothing selected");
                 selectedTermName = "";
             }
         });
-
-
+        // Set up Course Status Spinner
         ArrayList<Course> courseList = new ArrayList<>();
         ArrayList<CourseStatus> courseStatusList = new ArrayList<>();
         courseList.addAll(repository.getmAllCourses());
@@ -170,13 +155,11 @@ public class CourseDetails extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                //editStatus.setText(courseStatusArrayAdapter.getItem(i).toString());
                 selectedStatus = (CourseStatus) spinner.getSelectedItem();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                //editStatus.setText("Nothing selected");
                 for (CourseStatus courseStatus : CourseStatus.values()) {
                     if (courseStatus.equals(status)) {
                         selectedStatus = courseStatus;
@@ -221,7 +204,6 @@ public class CourseDetails extends AppCompatActivity {
             }
         });
 
-        // Added this for end of part 3 videos
         List<Course> filteredCourses = new ArrayList<>();
         for (Course c : repository.getmAllCourses()) {
             if (c.getCourseId() == courseId) filteredCourses.add(c);
@@ -231,23 +213,6 @@ public class CourseDetails extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                CourseStatus courseStatus = CourseStatus.plan_to_take;
-                if (status != null) {
-                    switch (status) {
-                        case "in_progress":
-                            courseStatus = CourseStatus.in_progress;
-                            break;
-                        case "completed":
-                            courseStatus = CourseStatus.completed;
-                            break;
-                        case "dropped":
-                            courseStatus = CourseStatus.dropped;
-                            break;
-                    }
-                }
-
-                 */
                 termId = repository.getmTermIdByTermName(selectedTermName).get(0).getTermId();
                 if (editName.getText().toString().isEmpty()) {
                     showAlertDialog("Invalid Course Name", "Try Again");
@@ -282,20 +247,18 @@ public class CourseDetails extends AppCompatActivity {
             }
         });
 
+        /**
+         * Handle the Start Date
+         */
         editStartDate.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 Date date;
-                //get value from other screen,but I'm going to hard code it right now
                 String info = editStartDate.getText().toString();
-                //String endInfo = editEndDate.getText().toString();
-                //if (info.equals("")) info = "09/01/23";
-                //if (endInfo.equals("")) endInfo = "03/01/24";
                 try {
                     myCalendarStart.setTime(sdf.parse(info));
-                    //myCalendarEnd.setTime(sdf.parse(endInfo));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -305,15 +268,16 @@ public class CourseDetails extends AppCompatActivity {
             }
         });
 
+        /**
+         * Handle End Date
+         */
         editEndDate.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 Date date;
-                //get value from other screen,but I'm going to hard code it right now
                 String endInfo = editEndDate.getText().toString();
-                //if (endInfo.equals("")) endInfo = "03/01/24";
                 try {
                     myCalendarEnd.setTime(sdf.parse(endInfo));
                 } catch (ParseException e) {
@@ -356,6 +320,9 @@ public class CourseDetails extends AppCompatActivity {
         };
     }
 
+    /**
+     * Update start date
+     */
     private void updateLabelStart() {
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
@@ -363,6 +330,9 @@ public class CourseDetails extends AppCompatActivity {
         editStartDate.setText(sdf.format(myCalendarStart.getTime()));
     }
 
+    /**
+     * Update end date
+     */
     private void updateLabelEnd() {
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
@@ -390,11 +360,21 @@ public class CourseDetails extends AppCompatActivity {
         assessmentAdapter2.setAssessments(filteredAssess2);
     }
 
+    /**
+     * Set up the Course Details Menu
+     * @param menu
+     * @return
+     */
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_coursedetails, menu);
         return true;
     }
 
+    /**
+     * Setup the notifications for start and end date
+     * @param item
+     * @return
+     */
     public boolean onOptionsItemSelected(MenuItem item) {
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
@@ -445,6 +425,11 @@ public class CourseDetails extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Set up Alert Dialog for entire class
+     * @param message
+     * @param title
+     */
     private void showAlertDialog(String message, String title) {
         AlertDialog dialog =  new AlertDialog.Builder(CourseDetails.this)
                 .setTitle(title)
@@ -460,6 +445,12 @@ public class CourseDetails extends AppCompatActivity {
 
     }
 
+    /**
+     * Check if the date in question is valid and parseable
+     * @param sdf
+     * @param dateString
+     * @return
+     */
     public static boolean isValidDate(SimpleDateFormat sdf, String dateString) {
 
         try {
@@ -470,6 +461,10 @@ public class CourseDetails extends AppCompatActivity {
         }
     }
 
+    /**
+     * Refresh the screen
+     * @param courseId
+     */
     private void refreshScreen(int courseId) {
         editName.setText("");
         editEndDate.setText("");
