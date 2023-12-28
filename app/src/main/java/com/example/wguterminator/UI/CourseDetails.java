@@ -270,11 +270,14 @@ public class CourseDetails extends AppCompatActivity {
                     course = new Course(0,termId, editName.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString(), selectedStatus,
                             editAssignedInstructor.getText().toString(), editInstructorPhone.getText().toString(),editInstructorEmail.getText().toString(), editNotes.getText().toString());
                     repository.insert(course);
+                    showAlertDialog("Adding Course: " +course.getCourseName(), "Successful Add");
+
                 }
                 else {
                     course = new Course(courseId,termId, editName.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString(),selectedStatus,
                             editAssignedInstructor.getText().toString(), editInstructorPhone.getText().toString(),editInstructorEmail.getText().toString(), editNotes.getText().toString());
                     repository.update(course);
+                    showAlertDialog("Updating Course: " +course.getCourseName(), "Successful Update");
                 }
             }
         });
