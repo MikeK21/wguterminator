@@ -348,7 +348,7 @@ public class AssessmentDetails extends AppCompatActivity {
                 }
                 Long trigger = myDate.getTime();
                 Intent intent = new Intent(AssessmentDetails.this, MyReceiver.class);
-                intent.putExtra("key", dateFromScreen + " should trigger");
+                intent.putExtra("key", dateFromScreen + " " + assessment.getAssessmentName() + " End Date");
                 PendingIntent sender = PendingIntent.getBroadcast(AssessmentDetails.this, ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);

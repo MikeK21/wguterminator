@@ -423,7 +423,7 @@ public class CourseDetails extends AppCompatActivity {
                 }
                 Long startTrigger = myDate.getTime();
                 Intent startIntent = new Intent(CourseDetails.this, MyReceiver.class);
-                startIntent.putExtra("key", dateFromScreen + " should trigger");
+                startIntent.putExtra("key", dateFromScreen  + " " + course.getCourseName() + " Start Date");
                 PendingIntent startSender = PendingIntent.getBroadcast(CourseDetails.this, ++MainActivity.numAlert, startIntent, PendingIntent.FLAG_IMMUTABLE);
                 AlarmManager startAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 startAlarmManager.set(AlarmManager.RTC_WAKEUP, startTrigger, startSender);
@@ -437,7 +437,7 @@ public class CourseDetails extends AppCompatActivity {
                 }
                 Long endTrigger = myDate.getTime();
                 Intent endIntent = new Intent(CourseDetails.this, MyReceiver.class);
-                endIntent.putExtra("key", endDateFromScreen + " should trigger");
+                endIntent.putExtra("key", endDateFromScreen  + " " + course.getCourseName() + " End Date");
                 PendingIntent endSender = PendingIntent.getBroadcast(CourseDetails.this, ++MainActivity.numAlert, endIntent, PendingIntent.FLAG_IMMUTABLE);
                 AlarmManager endAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 endAlarmManager.set(AlarmManager.RTC_WAKEUP, endTrigger, endSender);
