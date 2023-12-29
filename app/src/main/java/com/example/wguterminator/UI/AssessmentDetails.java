@@ -268,18 +268,9 @@ public class AssessmentDetails extends AppCompatActivity {
                         editCourseId = selectedCourseId;
 
                         assessment = new Assessment(assessId, editCourseId, editName.getText().toString(),editStartDate.getText().toString(),editEndDate.getText().toString(),assessmentType);
-                        if (getAssocAssessments(editCourseId) >= 5 ) {
-                            showAlertDialog("Cannot add assessment as Course already has" +
-                                    " or will have more than 5 assessments!", "Course Conflict Error");
-                        }
-                        else if (!checkIfCourseExists(editCourseId)) {
-                            showAlertDialog("Cannot add assessment as Course doesn't exist!", "Course doesn't exist error");
-                        }
-                        else {
                             repository.update(assessment);
                             showAlertDialog("Successful Assessment Update: "
                                     + assessment.getAssessmentName(), "Successful Update");
-                        }
                     }
                 }
         });
