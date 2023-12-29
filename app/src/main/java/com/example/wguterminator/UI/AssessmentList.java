@@ -34,6 +34,7 @@ public class AssessmentList extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                onResume();
                 Intent intent = new Intent(AssessmentList.this,AssessmentDetails.class);
                 startActivity(intent);
             }

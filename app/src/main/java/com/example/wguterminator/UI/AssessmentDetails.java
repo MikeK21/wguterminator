@@ -76,9 +76,9 @@ public class AssessmentDetails extends AppCompatActivity {
 
         editName = findViewById(R.id.assessNameDetails);
         editStartDate = findViewById(R.id.assessStartDateDetails);
-        editStartDate.setText(sdf.format(new Date()));
+        editStartDate.setText(stringStartDate);
         editEndDate = findViewById(R.id.assessEndDateDetails);
-        editEndDate.setText(sdf.format(new Date()));
+        editEndDate.setText(stringEndDate);
         repository = new Repository(getApplication());
 
         assessmentList = repository.getmAllAssessments();
@@ -141,6 +141,7 @@ public class AssessmentDetails extends AppCompatActivity {
             Log.e("AssessmentDetails", "editName is null");
         }
 
+        /*
         // Check if editName is not null before calling setText
         if (editEndDate != null) {
             if (stringEndDate == null) {
@@ -167,6 +168,8 @@ public class AssessmentDetails extends AppCompatActivity {
             Log.e("AssessmentDetails", "editStartDate is null");
         }
 
+
+         */
 
         Button newAssessButton = findViewById(R.id.newAssess);
         newAssessButton.setOnClickListener(new View.OnClickListener() {
@@ -282,7 +285,6 @@ public class AssessmentDetails extends AppCompatActivity {
         });
 
         editStartDate.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
@@ -299,27 +301,21 @@ public class AssessmentDetails extends AppCompatActivity {
         });
 
         editEndDate.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                String startInfo = editStartDate.getText().toString();
                 String endInfo = editEndDate.getText().toString();
                 try {
-                    myCalendarStart.setTime(sdf.parse(startInfo));
                     myCalendarEnd.setTime(sdf.parse(endInfo));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                new DatePickerDialog(AssessmentDetails.this, startDate, myCalendarStart
-                        .get(Calendar.YEAR), myCalendarStart.get(Calendar.MONTH),
-                        myCalendarStart.get(Calendar.DAY_OF_MONTH)).show();
-
                 new DatePickerDialog(AssessmentDetails.this, endDate, myCalendarEnd
                         .get(Calendar.YEAR), myCalendarEnd.get(Calendar.MONTH),
                         myCalendarEnd.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+
 
         /** Set up the end date with date picker
          *
@@ -350,9 +346,9 @@ public class AssessmentDetails extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
-                myCalendarEnd.set(Calendar.YEAR, year);
-                myCalendarEnd.set(Calendar.MONTH, monthOfYear);
-                myCalendarEnd.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                myCalendarStart.set(Calendar.YEAR, year);
+                myCalendarStart.set(Calendar.MONTH, monthOfYear);
+                myCalendarStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
                 updateLabelStart();
             }
@@ -392,7 +388,7 @@ public class AssessmentDetails extends AppCompatActivity {
                 }
                 Long startTrigger = myDate.getTime();
                 Intent startIntent = new Intent(AssessmentDetails.this, MyReceiver.class);
-                startIntent.putExtra("key", startDateFromScreen  + " " + name + " Start Date");
+                startIntent.putExtra("key", startDateFromScreen  + " " + editName.getText() + " Start Date");
                 PendingIntent startSender = PendingIntent.getBroadcast(AssessmentDetails.this, ++MainActivity.numAlert, startIntent, PendingIntent.FLAG_IMMUTABLE);
                 AlarmManager startAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 startAlarmManager.set(AlarmManager.RTC_WAKEUP, startTrigger, startSender);
@@ -406,7 +402,11 @@ public class AssessmentDetails extends AppCompatActivity {
                 }
                 Long trigger = myDate.getTime();
                 Intent intent = new Intent(AssessmentDetails.this, MyReceiver.class);
-                intent.putExtra("key", endDateFromScreen + " " + name + " End Date");
+                if (editName.getText() == null) {
+                    showAlertDialog("Enter asssessment name before triggering notification", "Save Warning");
+                    return true;
+                }
+                intent.putExtra("key", endDateFromScreen + " " + editName.getText() + " End Date");
                 PendingIntent sender = PendingIntent.getBroadcast(AssessmentDetails.this, ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
@@ -491,6 +491,7 @@ public class AssessmentDetails extends AppCompatActivity {
         editName.setText("");
         editStartDate.setText("");
         editEndDate.setText("");
+        selectedType = AssessmentType.objective;
         this.assessId = assessId;
     }
 }

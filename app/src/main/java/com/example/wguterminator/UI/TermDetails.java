@@ -167,6 +167,7 @@ public class TermDetails extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                onResume();
                 Intent intent = new Intent(TermDetails.this, TermList.class);
                 intent.putExtra("termId", id);
                 startActivity(intent);

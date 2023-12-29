@@ -107,7 +107,8 @@ public class CourseDetails extends AppCompatActivity {
         List<Term> assocTerms = repository.getmTermByTermId(termId);
         int assocTermNameResultCount =assocTerms.size();
         if (assocTermNameResultCount > 0) {
-            String selectedTermName = assocTerms.get(0).getTermName();
+            Term selectedTerm = assocTerms.get(0);
+            selectedTermName = selectedTerm.getTermName();
         } else {
             selectedTermName = "";
         }
@@ -129,6 +130,7 @@ public class CourseDetails extends AppCompatActivity {
                 android.R.layout.simple_spinner_item,termNameList);
         Spinner termNameSpinner = findViewById(R.id.termNameSpinner);
         termNameSpinner.setAdapter(termIdArrayAdapter);
+        termNameSpinner.setSelection(0);
         termNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -137,7 +139,7 @@ public class CourseDetails extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                selectedTermName = "";
+                selectedTermName = (String) termNameSpinner.getSelectedItem();
             }
         });
         // Set up Course Status Spinner
@@ -152,6 +154,7 @@ public class CourseDetails extends AppCompatActivity {
                 android.R.layout.simple_spinner_item,CourseStatus.values());
         Spinner spinner = findViewById(R.id.statusSpinner);
         spinner.setAdapter(courseStatusArrayAdapter);
+        spinner.setSelection(0);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -191,7 +194,9 @@ public class CourseDetails extends AppCompatActivity {
         newFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                refreshScreen(courseId);
+                termNameSpinner.setSelection(0);
+                spinner.setSelection(0);
+                refreshScreen(-1);
             }
         });
 
@@ -213,7 +218,11 @@ public class CourseDetails extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                termId = repository.getmTermIdByTermName(selectedTermName).get(0).getTermId();
+                try {
+                    termId = repository.getmTermIdByTermName(selectedTermName).get(0).getTermId();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 if (editName.getText().toString().isEmpty()) {
                     showAlertDialog("Invalid Course Name", "Try Again");
                 } else if (editAssignedInstructor.getText().toString().isEmpty()) {
@@ -222,8 +231,6 @@ public class CourseDetails extends AppCompatActivity {
                     showAlertDialog("Invalid Instructor Email", "Try Again");
                 } else if (editInstructorPhone.getText().toString().isEmpty()) {
                     showAlertDialog("Invalid Instructor Phone Number", "Try Again");
-                } else if (selectedTermName.isEmpty()) {
-                    showAlertDialog("Invalid Term Name", "Try Again");
                 } else if (selectedStatus.toString().isEmpty()) {
                     showAlertDialog("Invalid Course Status", "Try Again");
                 } else if (editStartDate.getText().toString().isEmpty() || editEndDate.getText().toString().isEmpty()) {
@@ -403,7 +410,7 @@ public class CourseDetails extends AppCompatActivity {
                 }
                 Long startTrigger = myDate.getTime();
                 Intent startIntent = new Intent(CourseDetails.this, MyReceiver.class);
-                startIntent.putExtra("key", dateFromScreen  + " " + course.getCourseName() + " Start Date");
+                startIntent.putExtra("key", dateFromScreen  + " " + editName.getText() + " Start Date");
                 PendingIntent startSender = PendingIntent.getBroadcast(CourseDetails.this, ++MainActivity.numAlert, startIntent, PendingIntent.FLAG_IMMUTABLE);
                 AlarmManager startAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 startAlarmManager.set(AlarmManager.RTC_WAKEUP, startTrigger, startSender);
@@ -417,7 +424,7 @@ public class CourseDetails extends AppCompatActivity {
                 }
                 Long endTrigger = myDate.getTime();
                 Intent endIntent = new Intent(CourseDetails.this, MyReceiver.class);
-                endIntent.putExtra("key", endDateFromScreen  + " " + course.getCourseName() + " End Date");
+                endIntent.putExtra("key", endDateFromScreen  + " " +editName.getText() + " End Date");
                 PendingIntent endSender = PendingIntent.getBroadcast(CourseDetails.this, ++MainActivity.numAlert, endIntent, PendingIntent.FLAG_IMMUTABLE);
                 AlarmManager endAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 endAlarmManager.set(AlarmManager.RTC_WAKEUP, endTrigger, endSender);
@@ -473,7 +480,7 @@ public class CourseDetails extends AppCompatActivity {
         editInstructorEmail.setText("");
         editInstructorPhone.setText("");
         editNotes.setText("");
-        selectedTermName = "";
+        //selectedStatus = CourseStatus.in_progress;
         this.courseId = courseId;
     }
 

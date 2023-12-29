@@ -34,6 +34,7 @@ public class TermList extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                onResume();
                 Intent intent = new Intent(TermList.this,TermDetails.class);
                 startActivity(intent);
             }
