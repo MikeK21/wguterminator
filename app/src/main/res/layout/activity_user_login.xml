@@ -53,6 +53,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:id="@+id/usernameLoginField"
                 tools:layout_editor_absoluteX="9dp"
                 tools:layout_editor_absoluteY="86dp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -90,6 +91,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:id="@+id/passwordLoginField"
                     android:inputType="textPassword"
                     android:textSize="16sp"
                     tools:layout_editor_absoluteX="9dp"

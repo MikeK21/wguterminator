@@ -31,6 +31,7 @@ import com.example.wguterminator.R;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -52,7 +53,7 @@ public class AssessmentDetails extends AppCompatActivity {
     String name;
     String stringStartDate;
     String stringEndDate;
-    String assessmentTypeString;
+    String assessmentTypeString = "";
     DatePickerDialog.OnDateSetListener startDate;
     DatePickerDialog.OnDateSetListener endDate;
     final Calendar myCalendarEnd = Calendar.getInstance();
@@ -100,6 +101,15 @@ public class AssessmentDetails extends AppCompatActivity {
                 android.R.layout.simple_spinner_item,AssessmentType.values());
         Spinner typeSpinner = findViewById(R.id.typeSpinner);
         typeSpinner.setAdapter(assessmentTypeArrayAdapter);
+        if (assessmentTypeString != null) {
+            for (AssessmentType type : AssessmentType.values()) {
+                if (assessmentTypeString.equals(type.toString())) {
+                    selectedType = type;
+                }
+            }
+        }
+        int position = Arrays.asList(AssessmentType.values()).indexOf(selectedType);
+        typeSpinner.setSelection(position);
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -141,7 +151,6 @@ public class AssessmentDetails extends AppCompatActivity {
             Log.e("AssessmentDetails", "editName is null");
         }
 
-        /*
         // Check if editName is not null before calling setText
         if (editEndDate != null) {
             if (stringEndDate == null) {
@@ -168,8 +177,6 @@ public class AssessmentDetails extends AppCompatActivity {
             Log.e("AssessmentDetails", "editStartDate is null");
         }
 
-
-         */
 
         Button newAssessButton = findViewById(R.id.newAssess);
         newAssessButton.setOnClickListener(new View.OnClickListener() {
@@ -218,20 +225,15 @@ public class AssessmentDetails extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AssessmentType assessmentType = AssessmentType.objective;
+                //AssessmentType assessmentType = AssessmentType.objective;
+                AssessmentType assessmentType = (AssessmentType) typeSpinner.getSelectedItem();
                 int editCourseId = -1;
                 try {
                     editCourseId = selectedCourseId;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                if (assessmentTypeString != null) {
-                    switch (assessmentTypeString) {
-                        case "performance":
-                            assessmentType = AssessmentType.performance;
-                            break;
-                    }
-                }
+
                     if (editName.getText().toString().isEmpty()) {
                         showAlertDialog("Invalid Assessment Name", "Try Again");
                     } else if (editCourseId == -1) {

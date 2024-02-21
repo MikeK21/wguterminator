@@ -154,7 +154,7 @@ public class CourseDetails extends AppCompatActivity {
                 android.R.layout.simple_spinner_item,CourseStatus.values());
         Spinner spinner = findViewById(R.id.statusSpinner);
         spinner.setAdapter(courseStatusArrayAdapter);
-        spinner.setSelection(0);
+        //spinner.setSelection(0);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
