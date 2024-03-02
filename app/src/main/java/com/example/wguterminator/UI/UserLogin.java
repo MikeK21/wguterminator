@@ -22,9 +22,13 @@ import java.util.logging.Logger;
 
 public class UserLogin extends AppCompatActivity {
 
-    Repository repository;
+    public Repository repository;
     String user;
     String password;
+
+    public void handleIntent(Intent intent) {
+        onNewIntent(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +68,7 @@ public class UserLogin extends AppCompatActivity {
      * @param message
      * @param title
      */
-    private void showAlertDialog(String message, String title) {
+    public void showAlertDialog(String message, String title) {
         AlertDialog dialog =  new AlertDialog.Builder(UserLogin.this)
                 .setTitle(title)
                 .setMessage(message)
