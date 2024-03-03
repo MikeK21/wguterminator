@@ -30,6 +30,7 @@ public class UserLoginTest {
         MockitoAnnotations.initMocks(this);
     }
 
+
     @Test
     public void testLogin_isSuccessful() {
         String validUser = "MK";

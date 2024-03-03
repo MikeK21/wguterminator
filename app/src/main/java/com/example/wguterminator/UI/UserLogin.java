@@ -50,9 +50,7 @@ public class UserLogin extends AppCompatActivity {
                 Optional<User> userMatch = userList.stream().filter(x -> editUserText.equals(x.getUserName())).findFirst();
                 if (userMatch.isPresent()) {
                     User currentUser = userMatch.get();
-                    Logger log = null;
-                    log.info("User Match Found: ");
-                    log.info(currentUser.getUserName());
+                    showAlertDialog("User is Logged In: " + currentUser.getUserName(), "Logged In");
                     Intent intent = new Intent(UserLogin.this, TermDetails.class);
                     startActivity(intent);
                 } else {
