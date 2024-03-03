@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.wguterminator.Entities.Assessment;
 import com.example.wguterminator.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.AssessmentViewHolder>{
@@ -21,6 +22,16 @@ public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.As
     private List<Assessment> mAssessments;
     private final Context context;
     private final LayoutInflater mInflater;
+
+    public void filterList(List<Assessment> filteredlist) {
+        // below line is to add our filtered
+        // list in our course array list.
+        mAssessments = filteredlist;
+        // below line is to notify our adapter
+        // as change in recycler view data.
+        notifyDataSetChanged();
+    }
+
     class AssessmentViewHolder extends RecyclerView.ViewHolder {
         private final TextView assessItemView;
         private final TextView assessItemView2;

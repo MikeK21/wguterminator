@@ -49,14 +49,21 @@ public class MainActivity extends AppCompatActivity {
                 Repository repository = new Repository(getApplication());
                 User user = new User(0, "MK", "password");
                 User user2 = new User(0, "admin", "admin");
+                User user3 = new User(0, "guest", "guest");
+                User user4 = new User(0, "breakglass", "breakglass");
                 repository.insert(user);
                 repository.insert(user2);
+                repository.insert(user3);
+                repository.insert(user4);
                 Term term = new Term(0, "May 2023", "05/01/23", "11/01/2023");
                 repository.insert(term);
                 Course course2 = new Course(0,1,"Calculus", "07/01/23", "11/01/23", CourseStatus.in_progress, "Josh Harris", "301-111-5555","riveraera@commanders.com", "coach");
                 repository.insert(course2);
                 Assessment assessment = new Assessment(0, 1,"Chesapeake Critters", "11/01/2023", "07/01/2024", AssessmentType.performance);
+                Assessment assessment2 = new Assessment(0, 1,"Chesapeake Bay Life", "12/01/2023", "04/01/2024", AssessmentType.performance);
                 repository.insert(assessment);
+                repository.insert(assessment2);
+
                 return true;
         }
         return super.onOptionsItemSelected(item);
