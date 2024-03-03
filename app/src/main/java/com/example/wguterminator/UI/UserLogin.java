@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,11 +48,13 @@ public class UserLogin extends AppCompatActivity {
             public void onClick(View view) {
                 String editUserText = editUser.getText().toString();
                 User currentUser = validateCurrentUserObject(editUserText);
-                if (!currentUser.getUserName().isEmpty()) {
-                    showAlertDialog("User is Logged In: " + currentUser.getUserName(), "Logged In");
-                    Intent intent = new Intent(UserLogin.this, TermDetails.class);
-                    intent.putExtra("user", currentUser.getUserName());
-                    startActivity(intent);
+                if (currentUser != null) {
+                    if (!currentUser.getUserName().isEmpty()) {
+                        showAlertDialog("User is Logged In: " + currentUser.getUserName(), "Logged In");
+                        Intent intent = new Intent(UserLogin.this, TermDetails.class);
+                        intent.putExtra("user", currentUser.getUserName());
+                        startActivity(intent);
+                    }
                 }
             }
         });
@@ -64,16 +67,23 @@ public class UserLogin extends AppCompatActivity {
         Optional<User> processedUser = userList.stream().filter(x -> user.equals(x.getUserName())).findFirst();
 
         if (processedUser != null) {
-            if (!processedUser.get().getUserName().isEmpty()) {
-                User currentUser = processedUser.get();
-                return currentUser;
+            if (processedUser.isPresent()) {
+                if (!processedUser.get().getUserName().isEmpty()) {
+                    User currentUser = processedUser.get();
+                    return currentUser;
+                } else {
+                    showAlertDialog("Unable to find User", "No User Match Found");
+                    return null;
+                }
+            } else {
+                showAlertDialog("Unable to find User", "No User Match Found");
+                return null;
             }
         }
         else {
             showAlertDialog("Unable to find User", "No User Match Found");
             return null;
         }
-        return null;
     }
 
     /**
@@ -92,6 +102,7 @@ public class UserLogin extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 }).create();
+        dialog.getWindow().setGravity(Gravity.CENTER);
         dialog.show();
 
     }
