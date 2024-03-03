@@ -23,6 +23,7 @@ import android.widget.EditText;
 import com.example.wguterminator.Database.Repository;
 import com.example.wguterminator.Entities.Course;
 import com.example.wguterminator.Entities.Term;
+import com.example.wguterminator.Entities.User;
 import com.example.wguterminator.R;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,6 +35,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 // cmsoftware@wgu.edu
 public class TermDetails extends AppCompatActivity {
@@ -41,6 +43,7 @@ public class TermDetails extends AppCompatActivity {
     EditText editName;
     EditText editDate;
     EditText editEndDate;
+    String user;
     String name;
     String date;
     String stringEndDate;
@@ -84,6 +87,7 @@ public class TermDetails extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         editDate.setText(sdf.format(new Date()));
         termId = getIntent().getIntExtra("termId", -1);
+        user = getIntent().getStringExtra("user");
         name = getIntent().getStringExtra("name");
         date = getIntent().getStringExtra("date");
         stringEndDate = getIntent().getStringExtra("endDate");
@@ -245,6 +249,24 @@ public class TermDetails extends AppCompatActivity {
             }
         };
 
+        Button userReportButton = findViewById(R.id.userReportButton);
+        userReportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User adminUser = validateCurrentUserObject(user);
+                if (adminUser != null) {
+                    if (adminUser.getUserName().equals("admin")) {
+                        generateUserReport();
+                    } else {
+                        showAlertDialog("Not the Admin User", "Unable To Generate Report");
+                    }
+                } else {
+                    showAlertDialog("Could not find user", "Unable to Generate Report");
+                }
+            }
+        });
+
+
     }
 
     /**
@@ -292,6 +314,37 @@ public class TermDetails extends AppCompatActivity {
         } catch (ParseException e) {
             return false;
         }
+    }
+
+    public User validateCurrentUserObject(String user) {
+        List<User> userList = repository.getmAllUsers();
+
+        Optional<User> processedUser = userList.stream().filter(x -> user.equals(x.getUserName())).findFirst();
+
+        if (processedUser != null) {
+            if (!processedUser.get().getUserName().isEmpty()) {
+                User currentUser = processedUser.get();
+                return currentUser;
+            }
+        }
+        else {
+            showAlertDialog("Unable to find User", "No User Match Found");
+            return null;
+        }
+        return null;
+    }
+
+    /**
+     * Generate a report of all users and display it in an alert dialog
+     */
+    private void generateUserReport() {
+        List<User> userList = repository.getmAllUsers();
+        StringBuilder reportBuilder = new StringBuilder("User Report:\n");
+        for (User user : userList) {
+            reportBuilder.append(user.getUserName()).append("\n");
+        }
+        String report = reportBuilder.toString();
+        showAlertDialog(report, "User Report");
     }
 
     @Override

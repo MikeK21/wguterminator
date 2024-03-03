@@ -45,21 +45,36 @@ public class UserLogin extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<User> userList = repository.getmAllUsers();
                 String editUserText = editUser.getText().toString();
-                Optional<User> userMatch = userList.stream().filter(x -> editUserText.equals(x.getUserName())).findFirst();
-                if (userMatch.isPresent()) {
-                    User currentUser = userMatch.get();
+                User currentUser = validateCurrentUserObject(editUserText);
+                if (!currentUser.getUserName().isEmpty()) {
                     showAlertDialog("User is Logged In: " + currentUser.getUserName(), "Logged In");
                     Intent intent = new Intent(UserLogin.this, TermDetails.class);
+                    intent.putExtra("user", currentUser.getUserName());
                     startActivity(intent);
-                } else {
-                    showAlertDialog("Unable to find User", "No User Match Found");
                 }
             }
         });
     }
 
+
+    public User validateCurrentUserObject(String user) {
+        List<User> userList = repository.getmAllUsers();
+
+        Optional<User> processedUser = userList.stream().filter(x -> user.equals(x.getUserName())).findFirst();
+
+        if (processedUser != null) {
+            if (!processedUser.get().getUserName().isEmpty()) {
+                User currentUser = processedUser.get();
+                return currentUser;
+            }
+        }
+        else {
+            showAlertDialog("Unable to find User", "No User Match Found");
+            return null;
+        }
+        return null;
+    }
 
     /**
      * Set up Alert Dialog for entire class
@@ -80,4 +95,6 @@ public class UserLogin extends AppCompatActivity {
         dialog.show();
 
     }
+
+
 }
